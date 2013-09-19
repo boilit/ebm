@@ -1,0 +1,67 @@
+<% var outputEncoding, items; %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StockModel - Webit</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=${outputEncoding}"/>
+
+    <style type="text/css">
+        body {
+            color: #333333;
+            line-height: 150%;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        thead {
+            font-weight: bold;
+            background-color: #C8FBAF;
+        }
+
+        .odd {
+            background-color: #F3DEFB;
+        }
+
+        .even {
+            background-color: #EFFFF8;
+        }
+    </style>
+</head>
+<body>
+<h1>StockModel - Webit</h1>
+<table>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>id</th>
+        <th>code</th>
+        <th>name</th>
+        <th>price</th>
+        <th>range</th>
+        <th>amount</th>
+        <th>gravity</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% for(item : items){ %>
+    <tr class="${for.iter.index%2==0?"odd":"even"}">
+        <td>${for.iter.index}</td>
+        <td>${item.id}</td>
+        <td>${item.code}</td>
+        <td style="text-align: left;">${item.name}</td>
+        <td>${item.price}</td>
+        <td style="color: ${item.range>=10?"red":"blue"};">${item.range}%</td>
+        <td>${item.amount}</td>
+        <% if(item.gravity >= 20) { %>
+        <td style="color: red;">${item.gravity}%</td>
+        <% } else { %>
+        <td style="color: blue;">${item.gravity}%</td>
+        <% } %>
+    </tr>
+    <% } %>
+    </tbody>
+</table>
+</body>
+</html>
