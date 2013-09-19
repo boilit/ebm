@@ -27,7 +27,7 @@ public class Main {
         final boolean buffered = false;
         final String outputEncoding = "UTF-8";
         final OutputMode outputMode = OutputMode.BYTES;
-        final int capacity = StockModel.CAPACITY_5;
+        final int capacity = StockModel.CAPACITY_2;
 
         StockModel.setCapacity(capacity);
         EngineInfo[] engines = new EngineInfo[]{
