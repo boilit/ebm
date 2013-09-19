@@ -20,7 +20,7 @@ Template Engine Benchmark Test
 所在单位：胜利油田胜利软件有限责任公司
 
 
-引擎参考：请参考<a href="https://github.com/boilit/bsl">BSL</a>
+引擎参考：<a href="https://github.com/boilit/bsl">BSL</a>
 
 引擎文档：<a href="http://boilit.github.io/bsl">BSL文档</a>
 
