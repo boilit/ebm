@@ -2,18 +2,27 @@ Template Engine Benchmark Test
 ===
 <pre>
 以下为org.boilit.ebm.Main的参数调整及测试方法        
-        
+
+1、基准测试使用的方式是对每款引擎进行独立JVM测试
+2、环境：OsName(操作系统名称)、OsVersion(操作系统版本)、OsArch(架构x86、x64)、CpuCore(CPU核心数)
+3、环境：JreVersion(Jre版本)、MaxMem(最大JVM内存)、FreeMem(空闲JVM内存)、UsedMem(已用JVM内存)
+4、环境：Items(数据条数)、WarmCount(预热次数、不计算时间)、LoopCount(测试次数、计算时间)、Buffered(是否开启IO缓冲)、OutputEncoding(输出编码)
+5、标题：Engine(引擎)、Version(版本)、Time(耗时)、Size(单次执行生成数据量)、Tps(吞吐量)、Rate(对比StringBuilder的性能比例)；
+6、测试方式：修改基准测试项目的org.boilit.ebm.Main类的main方法内的参数以Java Application方式运行测试；
+7、测试过程：Main的实例运行生成bat批处理文件顺序启动对应的模板引擎生成测试结果，然后汇总计算生成测试报表；
+8、参数：org.boilit.ebm.Main类中main方法内的参数调整：
+        // 预热次数、不计算时间消耗
         final int warmCount = 10;
+        // 测试次数、计算时间消耗
         final int loopCount = 10000;
+        // 是否开启IO缓冲
         final boolean buffered = false;
+        // 输出编码
         final String outputEncoding = "UTF-8";
+        // 输出方式（OutputStream、Writer）
         final OutputMode outputMode = OutputMode.BYTES;
+        // 数据数量、CAPACITY_1至CAPACITY_5，即10-50条数据可选
         final int capacity = StockModel.CAPACITY_5;
-
-测试用例的Main中可以通过修改这些参数来测试，修改后直接执行main方法即可
-执行main方法时，会在classpath下生成bat文件，然后被main方法以独立进程启动并产生结果，
-最后main方法汇总结果并计算比较。
-
 
 软件作者：Boilit
 作者姓名：于景洋
