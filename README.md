@@ -22,7 +22,7 @@ Template Engine Benchmark Test
         // 输出方式（OutputStream、Writer）
         final OutputMode outputMode = OutputMode.BYTES;
         // 数据数量、CAPACITY_1至CAPACITY_5，即10-50条数据可选
-        final int capacity = StockModel.CAPACITY_5;
+        final int capacity = StockModel.CAPACITY_2;
 
 软件作者：Boilit
 作者姓名：于景洋
