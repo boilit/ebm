@@ -49,7 +49,10 @@ Template Engine Benchmark Test
 软件作者：Boilit
 作者姓名：于景洋
 所在单位：胜利油田胜利软件有限责任公司
-
+</pre>
+测试结果
+===
+<pre>
 JDK1.7上UTF-8编码 编译测试
 ===============================================================================
 process engine [StringBuilder] use standlone jvm ...
@@ -145,7 +148,10 @@ Beetl               1.25.01             1646      6805      6075      54.74
 Velocity            1.7                 2813      7496      3554      32.03     
 FreeMarker          2.3.19              3715      6807      2691      24.25     
 ===============================================================================
-
+</pre>
+参考资料
+===
+<pre>
 引擎参考：<a href="https://github.com/boilit/bsl">BSL</a>
 
 引擎文档：<a href="http://boilit.github.io/bsl">BSL文档</a>
@@ -154,3 +160,13 @@ Download:
     Bin:<a href="http://boilit.github.io/bsl/files/bsl-1.0.0-SNAPSHOT.jar">bsl-1.0.0-SNAPSHOT.jar</a>
     Src:<a href="http://boilit.github.io/bsl/files/bsl-1.0.0-SNAPSHOT-sources.jar">bsl-1.0.0-SNAPSHOT-sources.jar</a>
 </pre>
+License(许可证)
+===
+<pre>
+Template Engine Benchmark Test is released under the MIT License. 
+See the bundled LICENSE file for details.
+
+Template Engine Benchmark Test依据MIT许可证发布。
+详细请看捆绑的LICENSE文件。
+</pre>
+
