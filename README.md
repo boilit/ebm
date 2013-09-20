@@ -18,10 +18,20 @@ Template Engine Benchmark Test
 3、标题：Engine(引擎)、Version(版本)、Time(耗时)
          Size(单次执行生成数据量)、Tps(吞吐量)
          Rate(对比StringBuilder的性能比例)；
-4、测试：修改基准测试项目的org.boilit.ebm.Main类的main方法内的参数
-         以Java Application方式运行测试；
-         Main的实例运行生成bat批处理文件顺序启动对应的模板引擎生成测试结果，
-         Main最后汇总计算生成测试报表；
+4、测试：
+         方法一：
+                  编译工程，
+                  在编译路径下找到benchmark.bat；
+                  修改指定的Benchmark.jar的路径及JAVA_HOME；
+                  根据需求修改命令行参数，参数参考环境里参数的说明；
+                  双击运行benchmark.bat；
+                  运行完成后可以在命令行窗口看到测试结果；
+                  也可以在编译路径下的benchmark.txt中看到测试结果；
+         方法二：
+                  修改基准测试项目的org.boilit.ebm.Main类的main方法内的参数
+                  以Java Application方式运行测试；
+                  Main的实例运行生成bat批处理文件顺序启动对应的模板引擎生成测试结果，
+                  Main最后汇总计算生成测试报表；
 5、参数：org.boilit.ebm.Main类中main方法内的参数调整：
         // 预热次数、不计算时间消耗
         final int warmCount = 10;
