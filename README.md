@@ -45,7 +45,9 @@ Template Engine Benchmark Test
         final OutputMode outputMode = OutputMode.BYTES;
         // 数据数量、CAPACITY_1至CAPACITY_5，即10-50条数据可选
         final int capacity = StockModel.CAPACITY_2;
-
+</pre>
+软件作者
+===
 软件作者：Boilit
 作者姓名：于景洋
 所在单位：胜利油田胜利软件有限责任公司
