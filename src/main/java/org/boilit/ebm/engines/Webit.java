@@ -45,22 +45,8 @@ public final class Webit extends Benchmark {
         this.close(writer);
     }
 
-    public static EngineInfo getEngineInfo() {
-        EngineInfo ei = new EngineInfo();
-        ei.setName("Webit");
-        ei.setVersion("0.8.0-SNAPSHOT");
-        ei.setClassName(Webit.class.getName());
-        ei.setJarFiles(new String[]{
-                "webit-script-0.8.0-SNAPSHOT.jar",
-                "jodd-3.4.5.jar",
-                "slf4j-api-1.7.2.jar",
-                "slf4j-simple-1.7.2.jar"
-        });
-        return ei;
-    }
-
     public static void main(String[] args) throws Exception {
-        EngineInfo ei = getEngineInfo();
+        EngineInfo ei = EngineInfoFactory.getWebitEngineInfo();
         Benchmark benchmark = Utilities.inject(args);
         benchmark.run();
 

@@ -60,17 +60,8 @@ public final class Velocity extends Benchmark {
         this.close(writer);
     }
 
-    public static EngineInfo getEngineInfo() {
-        EngineInfo ei = new EngineInfo();
-        ei.setName("Velocity");
-        ei.setVersion("1.7");
-        ei.setClassName(Velocity.class.getName());
-        ei.setJarFiles(new String[]{"velocity-1.7.jar", "velocity-1.7-dep.jar"});
-        return ei;
-    }
-
     public static void main(String[] args) throws Exception {
-        EngineInfo ei = getEngineInfo();
+        EngineInfo ei = EngineInfoFactory.getVelocityEngineInfo();
         Benchmark benchmark = Utilities.inject(args);
         benchmark.run();
 

@@ -1,10 +1,6 @@
 package org.boilit.ebm;
 
-import org.boilit.ebm.engines.*;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 
 /**
  * @author Boilit
@@ -22,30 +18,51 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        final int warmCount = 10;
-        final int loopCount = 10000;
-        final boolean buffered = false;
-        final String outputEncoding = "UTF-8";
-        final OutputMode outputMode = OutputMode.BYTES;
-        final int capacity = StockModel.CAPACITY_2;
+        int warmCount = 10;
+        int loopCount = 10000;
+        boolean buffered = false;
+        String outputEncoding = "UTF-8";
+        OutputMode outputMode = OutputMode.BYTES;
+        int capacity = StockModel.CAPACITY_2;
+
+        if (args == null || args.length >0) {
+            for (int i = 0, n = args.length; i < n; i += 2) {
+                if (args[i].trim().equals("-warmCount")) {
+                    warmCount = Integer.parseInt(args[i + 1]);
+                } else if (args[i].trim().equals("-loopCount")) {
+                    loopCount = Integer.parseInt(args[i + 1]);
+                } else if (args[i].trim().equals("-buffered")) {
+                    buffered = Boolean.parseBoolean(args[i + 1]);
+                } else if (args[i].trim().equals("-outputEncoding")) {
+                    outputEncoding = args[i + 1];
+                } else if (args[i].trim().equals("-outputModel")) {
+                    outputMode = OutputMode.valueOf(args[i + 1]);
+                } else if (args[i].trim().equals("-capacity")) {
+                    capacity = Integer.parseInt(args[i + 1]);
+                }
+            }
+        }
 
         StockModel.setCapacity(capacity);
         EngineInfo[] engines = new EngineInfo[]{
-                JdkString.getEngineInfo(),
-                Bsl.getEngineInfo(),
-                Httl.getEngineInfo(),
-                Webit.getEngineInfo(),
-                Beetl.getEngineInfo(),
-                Velocity.getEngineInfo(),
-                FreeMarker.getEngineInfo()
+                EngineInfoFactory.getJdkStringEngineInfo(),
+                EngineInfoFactory.getBslEngineInfo(),
+                EngineInfoFactory.getHttlEngineInfo(),
+                EngineInfoFactory.getWebitEngineInfo(),
+                EngineInfoFactory.getBeetlEngineInfo(),
+                EngineInfoFactory.getVelocityEngineInfo(),
+                EngineInfoFactory.getFreeMarkerEngineInfo()
         };
-
+        StringBuilder result = new StringBuilder();
+        result.append(Utilities.getDelimiter()).append(Utilities.CR_LF);
         System.out.println(Utilities.getDelimiter());
         Result[] results = new Result[engines.length];
         String command;
         Process process;
         StringBuilder parameters;
-        String commandFile;
+        File commandFile;
+        File resultFile;
+        String commandFilePath;
         BufferedReader reader;
         String[] values;
         for (int i = 0, n = engines.length; i < n; i++) {
@@ -57,13 +74,17 @@ public class Main {
             parameters.append(" -outputEncoding ").append(outputEncoding);
             parameters.append(" -outputModel ").append(outputMode);
             parameters.append(" -capacity ").append(capacity);
-            commandFile = Utilities.write(engines[i], parameters.toString()).getAbsolutePath();
+            commandFile = Utilities.write(engines[i], parameters.toString());
+            commandFilePath = commandFile.getAbsolutePath();
+            result.append("process engine [" + engines[i].getName() + "] use standlone jvm ...").append(Utilities.CR_LF);
             System.out.println("process engine [" + engines[i].getName() + "] use standlone jvm ...");
-            command = "cmd /c ".concat(commandFile);
+            command = "cmd /c ".concat(commandFilePath);
             process = Runtime.getRuntime().exec(command);
             process.waitFor();
-            reader = new BufferedReader(new FileReader(new File(commandFile.replaceAll("\\.bat$", ".txt"))));
+            resultFile = new File(commandFilePath.replaceAll("\\.bat$", ".txt"));
+            reader = new BufferedReader(new FileReader(resultFile));
             values = reader.readLine().split(";");
+            reader.close();
             results[i] = new Result();
             results[i].name = values[0];
             results[i].version = values[1];
@@ -73,13 +94,25 @@ public class Main {
             if (i == 0) {
                 results[i].rate = 100.00d;
             }
+            commandFile.delete();
+            resultFile.delete();
         }
 
         for (int i = 1, n = results.length; i < n; i++) {
             results[i].rate = (double) results[0].time * 100 / (double) results[i].time;
         }
 
+        result.append(Utilities.showEnv(warmCount, loopCount, buffered, outputEncoding, outputMode)).append(Utilities.CR_LF);
+
         System.out.println(Utilities.showEnv(warmCount, loopCount, buffered, outputEncoding, outputMode));
+
+        result.append(fit("Engine", 20));
+        result.append(fit("Version", 20));
+        result.append(fit("Time(ms)", 10));
+        result.append(fit("Size(b)", 10));
+        result.append(fit("Tps", 10));
+        result.append(fit("Rate(%)", 10));
+        result.append(Utilities.CR_LF);
 
         System.out.print(fit("Engine", 20));
         System.out.print(fit("Version", 20));
@@ -89,6 +122,14 @@ public class Main {
         System.out.print(fit("Rate(%)", 10));
         System.out.println();
         for (int i = 0, n = results.length; i < n; i++) {
+            result.append(fit(results[i].name, 20));
+            result.append(fit(results[i].version, 20));
+            result.append(fit(results[i].time, 10));
+            result.append(fit(results[i].size, 10));
+            result.append(fit(results[i].tps, 10));
+            result.append(fit(String.format("%.2f", results[i].rate), 10));
+            result.append(Utilities.CR_LF);
+
             System.out.print(fit(results[i].name, 20));
             System.out.print(fit(results[i].version, 20));
             System.out.print(fit(results[i].time, 10));
@@ -97,7 +138,19 @@ public class Main {
             System.out.print(fit(String.format("%.2f", results[i].rate), 10));
             System.out.println();
         }
+        result.append(Utilities.getDelimiter());
+        result.append(Utilities.CR_LF);
+
         System.out.println(Utilities.getDelimiter());
+
+        File file = new File(Utilities.getClassPath(), "benchmark.txt");
+        if(!file.exists()) {
+            file.createNewFile();
+        }
+        FileWriter writer = new FileWriter(file);
+        writer.write(result.toString());
+        writer.close();
+        System.out.println("Benchmark Test Result has saved to file["+file.getAbsolutePath()+"]");
     }
 
     private static String fit(Object value, int length) {

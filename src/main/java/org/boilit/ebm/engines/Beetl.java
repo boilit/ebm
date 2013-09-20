@@ -48,17 +48,8 @@ public final class Beetl extends Benchmark {
         this.close(writer);
     }
 
-    public static EngineInfo getEngineInfo() {
-        EngineInfo ei = new EngineInfo();
-        ei.setName("Beetl");
-        ei.setVersion("1.25.01");
-        ei.setClassName(Beetl.class.getName());
-        ei.setJarFiles(new String[]{"beetl.1.25.01.jar"});
-        return ei;
-    }
-
     public static void main(String[] args) throws Exception {
-        EngineInfo ei = getEngineInfo();
+        EngineInfo ei = EngineInfoFactory.getBeetlEngineInfo();
         Benchmark benchmark = Utilities.inject(args);
         benchmark.run();
 

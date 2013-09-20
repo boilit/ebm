@@ -1,10 +1,7 @@
 package org.boilit.ebm.engines;
 
 import httl.Engine;
-import org.boilit.ebm.Benchmark;
-import org.boilit.ebm.EngineInfo;
-import org.boilit.ebm.StockModel;
-import org.boilit.ebm.Utilities;
+import org.boilit.ebm.*;
 
 import java.io.*;
 import java.util.HashMap;
@@ -54,17 +51,8 @@ public final class Httl extends Benchmark {
         this.close(writer);
     }
 
-    public static EngineInfo getEngineInfo() {
-        EngineInfo ei = new EngineInfo();
-        ei.setName("Httl");
-        ei.setVersion("1.0.7");
-        ei.setClassName(Httl.class.getName());
-        ei.setJarFiles(new String[]{"httl-1.0.7.jar"});
-        return ei;
-    }
-
     public static void main(String[] args) throws Exception {
-        EngineInfo ei = getEngineInfo();
+        EngineInfo ei = EngineInfoFactory.getHttlEngineInfo();
         Benchmark benchmark = Utilities.inject(args);
         benchmark.run();
 

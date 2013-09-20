@@ -54,17 +54,8 @@ public final class FreeMarker extends Benchmark {
         this.close(writer);
     }
 
-    public static EngineInfo getEngineInfo() {
-        EngineInfo ei = new EngineInfo();
-        ei.setName("FreeMarker");
-        ei.setVersion("2.3.19");
-        ei.setClassName(FreeMarker.class.getName());
-        ei.setJarFiles(new String[]{"freemarker-2.3.19.jar"});
-        return ei;
-    }
-
     public static void main(String[] args) throws Exception {
-        EngineInfo ei = getEngineInfo();
+        EngineInfo ei = EngineInfoFactory.getFreeMarkerEngineInfo();
         Benchmark benchmark = Utilities.inject(args);
         benchmark.run();
 

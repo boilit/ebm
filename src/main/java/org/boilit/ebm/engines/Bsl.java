@@ -4,10 +4,7 @@ import org.boilit.bsl.Engine;
 import org.boilit.bsl.xtc.EmptyCompressor;
 import org.boilit.bsl.xtc.ExtremeCompressor;
 import org.boilit.bsl.xtc.GeneralCompressor;
-import org.boilit.ebm.Benchmark;
-import org.boilit.ebm.EngineInfo;
-import org.boilit.ebm.StockModel;
-import org.boilit.ebm.Utilities;
+import org.boilit.ebm.*;
 
 import java.io.*;
 import java.util.HashMap;
@@ -54,17 +51,8 @@ public final class Bsl extends Benchmark {
         this.close(writer);
     }
 
-    public static EngineInfo getEngineInfo() {
-        EngineInfo ei = new EngineInfo();
-        ei.setName("Bsl");
-        ei.setVersion("1.0.0-SNAPSHOT");
-        ei.setClassName(Bsl.class.getName());
-        ei.setJarFiles(new String[]{"bsl-1.0.0-SNAPSHOT.jar"});
-        return ei;
-    }
-
     public static void main(String[] args) throws Exception {
-        EngineInfo ei = getEngineInfo();
+        EngineInfo ei = EngineInfoFactory.getBslEngineInfo();
         Benchmark benchmark = Utilities.inject(args);
         benchmark.run();
 

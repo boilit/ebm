@@ -102,17 +102,8 @@ public final class JdkString extends Benchmark {
         this.close(writer);
     }
 
-    public static EngineInfo getEngineInfo() {
-        EngineInfo ei = new EngineInfo();
-        ei.setName("StringBuilder");
-        ei.setVersion("jdk"+System.getProperty("java.version"));
-        ei.setClassName(JdkString.class.getName());
-        ei.setJarFiles(new String[]{});
-        return ei;
-    }
-
     public static void main(String[] args) throws Exception {
-        EngineInfo ei = getEngineInfo();
+        EngineInfo ei = EngineInfoFactory.getJdkStringEngineInfo();
         Benchmark benchmark = Utilities.inject(args);
         benchmark.run();
 

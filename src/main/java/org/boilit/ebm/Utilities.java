@@ -9,7 +9,7 @@ import java.net.URL;
  * @see
  */
 public final class Utilities {
-    private static final String CR_LF = System.getProperty("line.separator");
+    public static final String CR_LF = System.getProperty("line.separator");
 
     public static final String showEnv(final int warmCount, final int loopCount, final boolean buffered,
                                        final String outputEncoding, final OutputMode outputMode) {
