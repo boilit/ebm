@@ -28,7 +28,7 @@ public final class Bsl extends Benchmark {
         engine.setOutputEncoding(this.getOutputEncoding());
         engine.setSpecifiedEncoder(true);
         engine.setUseTemplateCache(true);
-        engine.setTextCompressor(new EmptyCompressor());
+        engine.setTextCompressor(new ExtremeCompressor());
     }
 
     @Override
