@@ -36,9 +36,9 @@ public final class EngineInfoFactory {
     public static final EngineInfo getHttlEngineInfo() {
         EngineInfo ei = new EngineInfo();
         ei.setName("Httl");
-        ei.setVersion("1.0.7");
+        ei.setVersion("1.0.11");
         ei.setClassName("org.boilit.ebm.engines.Httl");
-        ei.setJarFiles(new String[]{"httl-1.0.7.jar"});
+        ei.setJarFiles(new String[]{"httl-1.0.11.jar"});
         return ei;
     }
 
@@ -63,10 +63,10 @@ public final class EngineInfoFactory {
     public static final EngineInfo getWebitEngineInfo() {
         EngineInfo ei = new EngineInfo();
         ei.setName("Webit");
-        ei.setVersion("0.8.0-SNAPSHOT");
+        ei.setVersion("1.0.0");
         ei.setClassName("org.boilit.ebm.engines.Webit");
         ei.setJarFiles(new String[]{
-                "webit-script-0.8.0-SNAPSHOT.jar",
+                "webit-script-1.0.0.jar",
                 "jodd-3.4.5.jar",
                 "slf4j-api-1.7.2.jar",
                 "slf4j-simple-1.7.2.jar"
