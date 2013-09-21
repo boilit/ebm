@@ -45,22 +45,18 @@
     </tr>
     </thead>
     <tbody>
-    <!--#foreach(item in items) -->
-    <tr class="${foreach.index % 2 == 1 ? "even" : "odd"}">
-        <td>${foreach.index}</td>
+    #for(org.boilit.ebm.StockModel item : items)
+    <tr class="${for.index % 2 == 1 ? "even" : "odd"}">
+        <td>${for.index}</td>
         <td>${item.id}</td>
         <td>${item.code}</td>
         <td style="text-align: left;">${item.name}</td>
         <td>${item.price}</td>
         <td style="color: ${item.range>=10?'red':'blue'};">${item.range}%</td>
         <td>${item.amount}</td>
-        <!--#if (item.gravity >= 20) -->
-        <td style="color: red;">${item.gravity}%</td>
-        <!--#else -->
-        <td style="color: blue;">${item.gravity}%</td>
-        <!--#end -->
+        <td style="color: ${item.gravity>=20?'red':'blue'};">${item.gravity}%</td>
     </tr>
-    <!--#end -->
+    #end
     </tbody>
 </table>
 </body>

@@ -20,7 +20,7 @@ public final class Webit extends Benchmark {
     public void init() {
         templateUrl = "/templates/webit.html";
 
-        engine = Engine.getEngine("/webitl-test.props");
+        engine = Engine.createEngine("/webitl-default.props");
         engine.setEncoding(this.getOutputEncoding());
         engine.setEnableAsmNative(true);
     }

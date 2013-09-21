@@ -8,8 +8,8 @@ import java.util.List;
  * @see
  */
 public abstract class Benchmark implements Runnable {
-    private int warmCount = 1;
-    private int loopCount = 1;
+    private int warmCount = 10;
+    private int loopCount = 10000;
     private long elapsedTime = 0l;
     private String inputEncoding = System.getProperty("file.encoding");
     private String outputEncoding = "UTF-8";
