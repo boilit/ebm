@@ -1,7 +1,7 @@
 Template Engine Benchmark Test
 ===
 <pre>
-目前网络上的模板引擎测试基本上都是非独立JVM测试的，
+目前网络上的Java模板引擎测试基本上都是非独立JVM测试的，
 这样做后测试的引擎性能会较高，与实际性能相比有较大偏差，
 因此本测试对每个引擎都使用独立JVM测试，保证了各个引擎间环境的公平性；
 
@@ -18,10 +18,20 @@ Template Engine Benchmark Test
 3、标题：Engine(引擎)、Version(版本)、Time(耗时)
          Size(单次执行生成数据量)、Tps(吞吐量)
          Rate(对比StringBuilder的性能比例)；
-4、测试：修改基准测试项目的org.boilit.ebm.Main类的main方法内的参数
-         以Java Application方式运行测试；
-         Main的实例运行生成bat批处理文件顺序启动对应的模板引擎生成测试结果，
-         Main最后汇总计算生成测试报表；
+4、测试：
+         方法一：
+                  编译工程，
+                  在编译路径下找到benchmark.bat；
+                  修改指定的Benchmark.jar的路径及JAVA_HOME；
+                  根据需求修改命令行参数，参数参考环境里参数的说明；
+                  双击运行benchmark.bat；
+                  运行完成后可以在命令行窗口看到测试结果；
+                  也可以在编译路径下的benchmark.txt中看到测试结果；
+         方法二：
+                  修改基准测试项目的org.boilit.ebm.Main类的main方法内的参数
+                  以Java Application方式运行测试；
+                  Main的实例运行生成bat批处理文件顺序启动对应的模板引擎生成测试结果，
+                  Main最后汇总计算生成测试报表；
 5、参数：org.boilit.ebm.Main类中main方法内的参数调整：
         // 预热次数、不计算时间消耗
         final int warmCount = 10;
@@ -35,10 +45,22 @@ Template Engine Benchmark Test
         final OutputMode outputMode = OutputMode.BYTES;
         // 数据数量、CAPACITY_1至CAPACITY_5，即10-50条数据可选
         final int capacity = StockModel.CAPACITY_2;
-
+</pre>
+软件作者
+===
+<pre>
 软件作者：Boilit
 作者姓名：于景洋
 所在单位：胜利油田胜利软件有限责任公司
+</pre>
+测试结果
+===
+<pre>
+注：以下测试结果的Size（单次执行生成数据量）不同是正常的，
+    原因是各个引擎对输出的空行压缩机制不同，导致输出结果大小不一，
+    输出Size越小意味着占用更少的IO资源，也意味着在网络环境下有更大的吞吐量,
+    其中Bsl、Httl有相应的静态文本空行压缩扩展接口，且性能不错；
+    Bsl是解释执行引擎，且具有动态语言特性，性能卓越，敏捷开发上有着先天优势；
 
 JDK1.7上UTF-8编码 编译测试
 ===============================================================================
@@ -135,7 +157,10 @@ Beetl               1.25.01             1646      6805      6075      54.74
 Velocity            1.7                 2813      7496      3554      32.03     
 FreeMarker          2.3.19              3715      6807      2691      24.25     
 ===============================================================================
-
+</pre>
+参考资料
+===
+<pre>
 引擎参考：<a href="https://github.com/boilit/bsl">BSL</a>
 
 引擎文档：<a href="http://boilit.github.io/bsl">BSL文档</a>
@@ -144,3 +169,13 @@ Download:
     Bin:<a href="http://boilit.github.io/bsl/files/bsl-1.0.0-SNAPSHOT.jar">bsl-1.0.0-SNAPSHOT.jar</a>
     Src:<a href="http://boilit.github.io/bsl/files/bsl-1.0.0-SNAPSHOT-sources.jar">bsl-1.0.0-SNAPSHOT-sources.jar</a>
 </pre>
+License(许可证)
+===
+<pre>
+Template Engine Benchmark Test is released under the MIT License. 
+See the bundled LICENSE file for details.
+
+Template Engine Benchmark Test依据MIT许可证发布。
+详细请看捆绑的LICENSE文件。
+</pre>
+
