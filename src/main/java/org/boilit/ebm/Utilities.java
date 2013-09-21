@@ -11,8 +11,8 @@ import java.net.URL;
 public final class Utilities {
     public static final String CR_LF = System.getProperty("line.separator");
 
-    public static final String showEnv(final int warmCount, final int loopCount, final boolean buffered,
-                                       final String outputEncoding, final OutputMode outputMode) {
+    public static final String showEnv(final JvmMode jvmMode, final int warmCount, final int loopCount,
+                                       final boolean buffered, final String outputEncoding, final OutputMode outputMode) {
         String osName = System.getProperty("os.name");
         String osArch = System.getProperty("os.arch");
         String osVersion = System.getProperty("os.version");
@@ -34,12 +34,13 @@ public final class Utilities {
         builder.append("MaxMem:").append(max).append("M, ");
         builder.append("FreeMem:").append(free).append("M, ");
         builder.append("UsedMem:").append(used).append("M").append(CR_LF);
+        builder.append("JvmMode:").append(jvmMode).append(", ");
+        builder.append("OutputEncoding:").append(outputEncoding).append(", ");
+        builder.append("OutputMode:").append(outputMode).append(CR_LF);
         builder.append("Items:").append(StockModel.getCapacity() * 10).append(", ");
         builder.append("WarmCount:").append(warmCount).append(", ");
         builder.append("LoopCount:").append(loopCount).append(", ");
         builder.append("Buffered:").append(buffered).append(CR_LF);
-        builder.append("OutputEncoding:").append(outputEncoding).append(", ");
-        builder.append("OutputMode:").append(outputMode).append(CR_LF);
         builder.append(getDelimiter());
         return builder.toString();
     }
@@ -48,14 +49,20 @@ public final class Utilities {
         return "===============================================================================";
     }
 
-    public static final File write(final EngineInfo ei, final String parameters) throws Exception {
+    public static final File write(final EngineInfo ei, final JvmMode jvmMode, final String parameters) throws Exception {
         final StringBuilder builder = new StringBuilder();
         final String javaHome = Utilities.getJavaHome();
         builder.append("@set JAVA_HOME=").append(javaHome).append(CR_LF);
         builder.append("@set PATH=").append(Utilities.getJavaPath()).append(CR_LF);
         builder.append("@set CLASSPATH=").append(Utilities.getClassPath(javaHome, ei.getJarFiles())).append(CR_LF);
         builder.append("@set PARAMETERS=").append(parameters).append(CR_LF);
-        builder.append("@java ").append(ei.getClassName()).append(" %PARAMETERS%").append(CR_LF);
+        builder.append("@java");
+        if(JvmMode.CLIENT == jvmMode) {
+            builder.append(" -client");
+        } else if(JvmMode.SERVER == jvmMode) {
+            builder.append(" -server");
+        }
+        builder.append(" ").append(ei.getClassName()).append(" %PARAMETERS%").append(CR_LF);
         //builder.append("@pause").append(CR_LF);
         File file = new File(getClassPath(), ei.getName().concat(".bat"));
         if (!file.getParentFile().exists()) {

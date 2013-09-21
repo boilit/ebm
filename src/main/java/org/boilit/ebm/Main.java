@@ -6,7 +6,7 @@ import java.io.*;
  * @author Boilit
  * @see
  */
-public class Main {
+public final class Main {
 
     private static class Result {
         private String name;
@@ -22,12 +22,15 @@ public class Main {
         int loopCount = 10000;
         boolean buffered = false;
         String outputEncoding = "UTF-8";
+        JvmMode jvmMode = JvmMode.DEFAULT;
         OutputMode outputMode = OutputMode.BYTES;
         int capacity = StockModel.CAPACITY_2;
 
         if (args == null || args.length >0) {
             for (int i = 0, n = args.length; i < n; i += 2) {
-                if (args[i].trim().equals("-warmCount")) {
+                if (args[i].trim().equals("-mode")) {
+                    jvmMode = JvmMode.valueOf(args[i + 1]);
+                } else if (args[i].trim().equals("-warmCount")) {
                     warmCount = Integer.parseInt(args[i + 1]);
                 } else if (args[i].trim().equals("-loopCount")) {
                     loopCount = Integer.parseInt(args[i + 1]);
@@ -72,7 +75,7 @@ public class Main {
             parameters.append(" -outputEncoding ").append(outputEncoding);
             parameters.append(" -outputModel ").append(outputMode);
             parameters.append(" -capacity ").append(capacity);
-            commandFile = Utilities.write(engines[i], parameters.toString());
+            commandFile = Utilities.write(engines[i], jvmMode, parameters.toString());
             commandFilePath = commandFile.getAbsolutePath();
             System.out.println("process engine [" + engines[i].getName() + "] use standlone jvm ...");
             command = "cmd /c ".concat(commandFilePath);
@@ -100,9 +103,9 @@ public class Main {
         }
 
         StringBuilder result = new StringBuilder();
-        result.append(Utilities.showEnv(warmCount, loopCount, buffered, outputEncoding, outputMode)).append(Utilities.CR_LF);
+        result.append(Utilities.showEnv(jvmMode, warmCount, loopCount, buffered, outputEncoding, outputMode)).append(Utilities.CR_LF);
 
-        System.out.println(Utilities.showEnv(warmCount, loopCount, buffered, outputEncoding, outputMode));
+        System.out.println(Utilities.showEnv(jvmMode, warmCount, loopCount, buffered, outputEncoding, outputMode));
 
         result.append(fit("Engine", 20));
         result.append(fit("Version", 20));
@@ -153,7 +156,7 @@ public class Main {
 
     private static String fit(Object value, int length) {
         String valStr = value.toString();
-        java.lang.StringBuilder builder = new java.lang.StringBuilder(valStr);
+        StringBuilder builder = new StringBuilder(valStr);
         for (int i = 0, n = Math.max(length - valStr.length(), 0); i < n; i++) {
             builder.append(' ');
         }
