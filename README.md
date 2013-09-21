@@ -138,8 +138,9 @@ FreeMarker          2.3.19              3708      6807      2696      24.30
 
 引擎文档：<a href="http://boilit.github.io/bsl">BSL文档</a>
 
-Download: 
-    Bin:<a href="http://boilit.github.io/bsl/files/bsl-1.0.1.jar">bsl-1.0.1.jar</a>
+Download：<a href="http://boilit.github.io/bsl/files/bsl-1.0.1.jar">bsl-1.0.1.jar</a>
+
+交流群：109365467 <a target="_blank" href="http://wp.qq.com/wpa/qunwpa?idkey=aa38808704bd813440ca2314873dd634b878b76be392ab0279b005db18be006b"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="Boilit技术群" title="Boilit技术群"></a>
 </pre>
 License(许可证)
 ===
