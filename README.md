@@ -139,8 +139,7 @@ FreeMarker          2.3.19              3708      6807      2696      24.30
 引擎文档：<a href="http://boilit.github.io/bsl">BSL文档</a>
 
 Download: 
-    Bin:<a href="http://boilit.github.io/bsl/files/bsl-1.0.0-SNAPSHOT.jar">bsl-1.0.0-SNAPSHOT.jar</a>
-    Src:<a href="http://boilit.github.io/bsl/files/bsl-1.0.0-SNAPSHOT-sources.jar">bsl-1.0.0-SNAPSHOT-sources.jar</a>
+    Bin:<a href="http://boilit.github.io/bsl/files/bsl-1.0.1.jar">bsl-1.0.1.jar</a>
 </pre>
 License(许可证)
 ===
