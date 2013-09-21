@@ -18,9 +18,9 @@ public final class EngineInfoFactory {
     public static final EngineInfo getBslEngineInfo() {
         EngineInfo ei = new EngineInfo();
         ei.setName("Bsl");
-        ei.setVersion("1.0.0-SNAPSHOT");
+        ei.setVersion("1.0.1");
         ei.setClassName("org.boilit.ebm.engines.Bsl");
-        ei.setJarFiles(new String[]{"bsl-1.0.0-SNAPSHOT.jar"});
+        ei.setJarFiles(new String[]{"bsl-1.0.1.jar"});
         return ei;
     }
 

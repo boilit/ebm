@@ -53,8 +53,6 @@ public class Main {
                 EngineInfoFactory.getVelocityEngineInfo(),
                 EngineInfoFactory.getFreeMarkerEngineInfo()
         };
-        StringBuilder result = new StringBuilder();
-        result.append(Utilities.getDelimiter()).append(Utilities.CR_LF);
         System.out.println(Utilities.getDelimiter());
         Result[] results = new Result[engines.length];
         String command;
@@ -76,7 +74,6 @@ public class Main {
             parameters.append(" -capacity ").append(capacity);
             commandFile = Utilities.write(engines[i], parameters.toString());
             commandFilePath = commandFile.getAbsolutePath();
-            result.append("process engine [" + engines[i].getName() + "] use standlone jvm ...").append(Utilities.CR_LF);
             System.out.println("process engine [" + engines[i].getName() + "] use standlone jvm ...");
             command = "cmd /c ".concat(commandFilePath);
             process = Runtime.getRuntime().exec(command);
@@ -102,6 +99,7 @@ public class Main {
             results[i].rate = (double) results[0].time * 100 / (double) results[i].time;
         }
 
+        StringBuilder result = new StringBuilder();
         result.append(Utilities.showEnv(warmCount, loopCount, buffered, outputEncoding, outputMode)).append(Utilities.CR_LF);
 
         System.out.println(Utilities.showEnv(warmCount, loopCount, buffered, outputEncoding, outputMode));

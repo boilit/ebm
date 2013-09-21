@@ -1,9 +1,7 @@
 package org.boilit.ebm.engines;
 
 import org.boilit.bsl.Engine;
-import org.boilit.bsl.xtc.EmptyCompressor;
 import org.boilit.bsl.xtc.ExtremeCompressor;
-import org.boilit.bsl.xtc.GeneralCompressor;
 import org.boilit.ebm.*;
 
 import java.io.*;

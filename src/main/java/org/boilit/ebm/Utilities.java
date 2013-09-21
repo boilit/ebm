@@ -37,8 +37,9 @@ public final class Utilities {
         builder.append("Items:").append(StockModel.getCapacity() * 10).append(", ");
         builder.append("WarmCount:").append(warmCount).append(", ");
         builder.append("LoopCount:").append(loopCount).append(", ");
-        builder.append("Buffered:").append(buffered).append(", ");
-        builder.append("OutputEncoding:").append(outputEncoding).append(CR_LF);
+        builder.append("Buffered:").append(buffered).append(CR_LF);
+        builder.append("OutputEncoding:").append(outputEncoding).append(", ");
+        builder.append("OutputMode:").append(outputMode).append(CR_LF);
         builder.append(getDelimiter());
         return builder.toString();
     }
