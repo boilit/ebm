@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>StockModel - Webit</title>
+    <title>StockModel - Script</title>
     <meta http-equiv="Content-Type" content="text/html; charset=${outputEncoding}"/>
 
     <style type="text/css">
@@ -30,7 +30,7 @@
     </style>
 </head>
 <body>
-<h1>StockModel - Webit</h1>
+<h1>StockModel - Webit Script</h1>
 <table>
     <thead>
     <tr>
@@ -46,7 +46,7 @@
     </thead>
     <tbody>
     <% for(item : items){ %>
-    <tr class="${for.iter.index%2==0?"odd":"even"}">
+    <tr class="${for.iter.isOdd?"odd":"even"}">
         <td>${for.iter.index}</td>
         <td>${item.id}</td>
         <td>${item.code}</td>
