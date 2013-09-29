@@ -1,7 +1,6 @@
 package org.boilit.ebm.engines;
 
 import org.boilit.bsl.Engine;
-import org.boilit.bsl.xtc.ExtremeCompressor;
 import org.boilit.ebm.*;
 
 import java.io.*;
@@ -26,7 +25,6 @@ public final class Bsl extends Benchmark {
         engine.setOutputEncoding(this.getOutputEncoding());
         engine.setSpecifiedEncoder(true);
         engine.setUseTemplateCache(true);
-        engine.setTextCompressor(new ExtremeCompressor());
     }
 
     @Override

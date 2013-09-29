@@ -18,9 +18,9 @@ public final class EngineInfoFactory {
     public static final EngineInfo getBslEngineInfo() {
         EngineInfo ei = new EngineInfo();
         ei.setName("Bsl");
-        ei.setVersion("1.0.1");
+        ei.setVersion("1.1.0");
         ei.setClassName("org.boilit.ebm.engines.Bsl");
-        ei.setJarFiles(new String[]{"bsl-1.0.1.jar"});
+        ei.setJarFiles(new String[]{"bsl-1.1.0.jar"});
         return ei;
     }
 
@@ -63,10 +63,11 @@ public final class EngineInfoFactory {
     public static final EngineInfo getWebitEngineInfo() {
         EngineInfo ei = new EngineInfo();
         ei.setName("Webit");
-        ei.setVersion("1.1.0");
+        ei.setVersion("1.1.3");
         ei.setClassName("org.boilit.ebm.engines.Webit");
         ei.setJarFiles(new String[]{
-                "webit-script-joddinside-1.1.0.jar"
+                "webit-script-1.1.3.jar",
+                "jodd-3.4.5.jar"
         });
         return ei;
     }

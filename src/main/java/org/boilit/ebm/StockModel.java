@@ -13,6 +13,12 @@ public final class StockModel {
     public static int CAPACITY_3 = 3;
     public static int CAPACITY_4 = 4;
     public static int CAPACITY_5 = 5;
+    public static int CAPACITY_6 = 6;
+    public static int CAPACITY_7 = 7;
+    public static int CAPACITY_8 = 8;
+    public static int CAPACITY_9 = 9;
+    public static int CAPACITY_10 = 10;
+    public static int CAPACITY_11 = 11;
     private static int capacity = CAPACITY_2;
     private int id;
     private String code;
@@ -67,10 +73,6 @@ public final class StockModel {
     public static void setCapacity(final int capacity) {
         if (capacity <= 0) {
             StockModel.capacity = 1;
-            return;
-        }
-        if (capacity >= 50) {
-            StockModel.capacity = 5;
             return;
         }
         StockModel.capacity = capacity;
@@ -138,6 +140,18 @@ public final class StockModel {
             items.add(new StockModel(48, "300274", "Company 48", 27.30, 9.20, "2155 HM", 22.31));
             items.add(new StockModel(49, "300045", "Company 49", 15.71, 6.65, "2106 HM", 13.81));
             items.add(new StockModel(50, "300247", "Company 50", 11.15, 9.96, "2083 HM", 13.87));
+        }
+        for(int i=0; i<capacity - CAPACITY_5; i++) {
+            items.add(new StockModel(51, "601929", "Company 51", 13.07, 2.91, "2345 HM", 4.04));
+            items.add(new StockModel(52, "601934", "Company 52", 13.42, 1.05, "2287 HM", 16.35));
+            items.add(new StockModel(53, "002649", "Company 53", 28.09, 3.73, "2286 HM", 11.63));
+            items.add(new StockModel(54, "600552", "Company 54", 14.19, 6.37, "2256 HM", 14.40));
+            items.add(new StockModel(55, "300233", "Company 55", 16.28, 10.00, "2245 HM", 25.83));
+            items.add(new StockModel(56, "002008", "Company 56", 27.20, 2.41, "2238 HM", 9.04));
+            items.add(new StockModel(57, "000549", "Company 57", 6.36, 9.66, "2213 HM", 16.48));
+            items.add(new StockModel(58, "300275", "Company 58", 27.30, 9.20, "2155 HM", 22.31));
+            items.add(new StockModel(59, "300046", "Company 59", 15.71, 6.65, "2106 HM", 13.81));
+            items.add(new StockModel(60, "300248", "Company 60", 11.15, 9.96, "2083 HM", 13.87));
         }
         return items;
     }

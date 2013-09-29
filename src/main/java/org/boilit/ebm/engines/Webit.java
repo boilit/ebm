@@ -13,16 +13,25 @@ import java.util.Map;
  * @see
  */
 public final class Webit extends Benchmark {
-    private Engine engine;
+    private Engine engine_bytes;
+    private Engine engine_chars;
     private String templateUrl;
 
     @Override
     public void init() {
         templateUrl = "/templates/webit.html";
 
-        engine = Engine.createEngine("/webitl-default.props");
-        engine.setEncoding(this.getOutputEncoding());
-        engine.setEnableAsmNative(true);
+        Map parameters = new HashMap();
+        parameters.put("webit.script.Engine.encoding", this.getOutputEncoding());
+
+        parameters.put("webit.script.Engine.textStatmentFactoryClass", "webit.script.core.text.impl.CharArrayTextStatmentFactory");
+        engine_chars = Engine.createEngine(null, parameters);
+
+        parameters.put("webit.script.Engine.textStatmentFactoryClass", "webit.script.core.text.impl.ByteArrayTextStatmentFactory");
+        engine_bytes = Engine.createEngine(null, parameters);
+
+        //engine.setEncoding(this.getOutputEncoding());
+        //engine.setEnableAsmNative(true);
     }
 
     @Override
@@ -31,7 +40,7 @@ public final class Webit extends Benchmark {
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("items", items);
         model.put("outputEncoding", this.getOutputEncoding());
-        this.engine.getTemplate(this.templateUrl).merge(model, outputStream);
+        this.engine_bytes.getTemplate(this.templateUrl).merge(model, outputStream);
         this.close(outputStream);
     }
 
@@ -41,7 +50,7 @@ public final class Webit extends Benchmark {
         final Map<String, Object> model = new HashMap<String, Object>();
         model.put("items", items);
         model.put("outputEncoding", this.getOutputEncoding());
-        this.engine.getTemplate(this.templateUrl).merge(model, writer);
+        this.engine_chars.getTemplate(this.templateUrl).merge(model, writer);
         this.close(writer);
     }
 
