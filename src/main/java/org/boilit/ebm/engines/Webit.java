@@ -21,15 +21,15 @@ public final class Webit extends Benchmark {
     public void init() {
         templateUrl = "/templates/webit.html";
 
-        Map parameters = new HashMap();
-        parameters.put("webit.script.Engine.encoding", this.getOutputEncoding());
-
-        parameters.put("webit.script.Engine.textStatmentFactoryClass", "webit.script.core.text.impl.CharArrayTextStatmentFactory");
-        engine_chars = Engine.createEngine(null, parameters);
-
+	    Map parameters = new HashMap();
+	    parameters.put("webit.script.Engine.encoding", this.getOutputEncoding());
+	    
+	    parameters.put("webit.script.Engine.textStatmentFactoryClass", "webit.script.core.text.impl.CharArrayTextStatmentFactory");
+	    engine_chars = Engine.createEngine(null, parameters);
+        
         parameters.put("webit.script.Engine.textStatmentFactoryClass", "webit.script.core.text.impl.ByteArrayTextStatmentFactory");
-        engine_bytes = Engine.createEngine(null, parameters);
-
+	    engine_bytes = Engine.createEngine(null, parameters);
+        
         //engine.setEncoding(this.getOutputEncoding());
         //engine.setEnableAsmNative(true);
     }
