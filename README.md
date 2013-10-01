@@ -62,74 +62,8 @@ Template Engine Benchmark Test
     其中Bsl、Httl有相应的静态文本空行压缩扩展接口，且性能不错；
     Bsl是解释执行引擎，且具有动态语言特性，性能卓越，敏捷开发上有着先天优势；
     Httl-1.0.11较1.0.7版本性能下降不少，且不知为什么for内嵌套if else给我报语法错误，无奈用条件表达式代替了。
-
-JDK1.7上UTF-8编码 基准测试源码使用JDK1.6编译 测试结果
-===============================================================================
-OsName:Windows 7, OsVersion:6.1, OsArch:amd64, CpuCore:4
-JreVersion:1.7.0_25, MaxMem:1795M, FreeMem:119M, UsedMem:1M
-Items:20, WarmCount:10, LoopCount:10000, Buffered:false
-OutputEncoding:UTF-8, OutputMode:BYTES
-===============================================================================
-Engine              Version             Time(ms)  Size(b)   Tps       Rate(%)   
-StringBuilder       jdk1.7.0_25         794       6733      12594     100.00    
-Bsl                 1.0.1               773       4613      12936     102.72    
-Httl                1.0.11              991       6805      10090     80.12     
-Webit               1.0.0               852       7335      11737     93.19     
-Beetl               1.25.01             1058      6807      9451      75.05     
-Velocity            1.7                 1995      7498      5012      39.80     
-FreeMarker          2.3.19              2455      6809      4073      32.34     
-===============================================================================
-
-JDK1.6上UTF-8编码 基准测试源码使用JDK1.6编译 测试结果
-===============================================================================
-OsName:Windows 7, OsVersion:6.1, OsArch:x86, CpuCore:4
-JreVersion:1.6.0_30, MaxMem:247M, FreeMem:14M, UsedMem:1M
-Items:20, WarmCount:10, LoopCount:10000, Buffered:false
-OutputEncoding:UTF-8, OutputMode:BYTES
-===============================================================================
-Engine              Version             Time(ms)  Size(b)   Tps       Rate(%)   
-StringBuilder       jdk1.6.0_30         712       6733      14044     100.00    
-Bsl                 1.0.1               903       4613      11074     78.85     
-Httl                1.0.11              1097      6805      9115      64.90     
-Webit               1.0.0               1314      7335      7610      54.19     
-Beetl               1.25.01             1611      6807      6207      44.20     
-Velocity            1.7                 2538      7498      3940      28.05     
-FreeMarker          2.3.19              3624      6809      2759      19.65     
-===============================================================================
-
-JDK1.7上GBK编码 基准测试源码使用JDK1.6编译 测试结果
-===============================================================================
-OsName:Windows 7, OsVersion:6.1, OsArch:amd64, CpuCore:4
-JreVersion:1.7.0_25, MaxMem:1795M, FreeMem:119M, UsedMem:1M
-Items:20, WarmCount:10, LoopCount:10000, Buffered:false
-OutputEncoding:GBK, OutputMode:BYTES
-===============================================================================
-Engine              Version             Time(ms)  Size(b)   Tps       Rate(%)   
-StringBuilder       jdk1.7.0_25         1067      6731      9372      100.00    
-Bsl                 1.0.1               826       4611      12106     129.18    
-Httl                1.0.11              1162      6803      8605      91.82     
-Webit               1.0.0               1085      7333      9216      98.34     
-Beetl               1.25.01             1233      6805      8110      86.54     
-Velocity            1.7                 2273      7496      4399      46.94     
-FreeMarker          2.3.19              2789      6807      3585      38.26     
-===============================================================================
-
-JDK1.6上GBK编码 基准测试源码使用JDK1.6编译 测试结果
-===============================================================================
-OsName:Windows 7, OsVersion:6.1, OsArch:x86, CpuCore:4
-JreVersion:1.6.0_30, MaxMem:247M, FreeMem:14M, UsedMem:1M
-Items:20, WarmCount:10, LoopCount:10000, Buffered:false
-OutputEncoding:GBK, OutputMode:BYTES
-===============================================================================
-Engine              Version             Time(ms)  Size(b)   Tps       Rate(%)   
-StringBuilder       jdk1.6.0_30         901       6731      11098     100.00    
-Bsl                 1.0.1               994       4611      10060     90.64     
-Httl                1.0.11              1120      6803      8928      80.45     
-Webit               1.0.0               1557      7333      6422      57.87     
-Beetl               1.25.01             1614      6805      6195      55.82     
-Velocity            1.7                 2790      7496      3584      32.29     
-FreeMarker          2.3.19              3708      6807      2696      24.30     
-===============================================================================
+测试结果：
+    <a href="http://boilit.github.io/bsl/zh/ability/jdk7utf8.html">测试结果</a>
 </pre>
 参考资料
 ===
@@ -138,9 +72,7 @@ FreeMarker          2.3.19              3708      6807      2696      24.30
 
 引擎文档：<a href="http://boilit.github.io/bsl">BSL文档</a>
 
-Download：<a href="http://boilit.github.io/bsl/files/bsl-1.0.2.jar">bsl-1.0.2.jar</a>
-
-交流群：109365467 <a target="_blank" href="http://wp.qq.com/wpa/qunwpa?idkey=aa38808704bd813440ca2314873dd634b878b76be392ab0279b005db18be006b"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="Boilit技术群" title="Boilit技术群"></a>
+交流QQ群：109365467
 </pre>
 License(许可证)
 ===
