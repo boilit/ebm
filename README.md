@@ -68,7 +68,7 @@ Template Engine Benchmark Test
 
 引擎文档：<a href="http://boilit.github.io/bsl">BSL文档</a>
 
-Download：<a href="http://boilit.github.io/bsl/files/bsl-2.0.1.jar">bsl-2.0.1.jar</a>
+Download：<a href="http://boilit.github.io/bsl/releases/bsl-2.0.1.jar">bsl-2.0.1.jar</a>
 
 交流QQ群：109365467
 </pre>
