@@ -13,12 +13,6 @@ public final class StockModel {
     public static int CAPACITY_3 = 3;
     public static int CAPACITY_4 = 4;
     public static int CAPACITY_5 = 5;
-    public static int CAPACITY_6 = 6;
-    public static int CAPACITY_7 = 7;
-    public static int CAPACITY_8 = 8;
-    public static int CAPACITY_9 = 9;
-    public static int CAPACITY_10 = 10;
-    public static int CAPACITY_11 = 11;
     private static int capacity = CAPACITY_2;
     private int id;
     private String code;

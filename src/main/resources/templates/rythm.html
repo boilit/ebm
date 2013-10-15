@@ -1,0 +1,75 @@
+@import org.boilit.ebm.StockModel
+@args String outputEncoding
+@args java.util.List<StockModel> items
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StockModel - Rythm</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=@raw(){@outputEncoding}"/>
+
+    <style type="text/css">
+        body {
+            color: #333333;
+            line-height: 150%;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        thead {
+            font-weight: bold;
+            background-color: #C8FBAF;
+        }
+
+        .odd {
+            background-color: #F3DEFB;
+        }
+
+        .even {
+            background-color: #EFFFF8;
+        }
+    </style>
+</head>
+<body>
+<h1>StockModel - Rythm</h1>
+<table>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>id</th>
+        <th>code</th>
+        <th>name</th>
+        <th>price</th>
+        <th>range</th>
+        <th>amount</th>
+        <th>gravity</th>
+    </tr>
+    </thead>
+    <tbody>
+@raw() {
+    @for(item: items) {
+    @{
+        String clazz = item_index%2==0?"odd":"even";
+        String color = item.getRange()>=10?"red":"blue";
+    }
+    <tr class="@clazz">
+        <td>@item_index</td>
+        <td>@item.getId()</td>
+        <td>@item.getCode()</td>
+        <td style="text-align: left;">@item.getName()</td>
+        <td>@item.getPrice()</td>
+        <td style="color: @color;">@item.getRange()</td>
+        <td>@item.getAmount()</td>
+        @if(item.getGravity() >= 20) {
+        <td style="color: red;">@item.getGravity()%</td>
+        } else {
+        <td style="color: blue;">@item.getGravity()%</td>
+        }
+    </tr>
+    }
+}
+    </tbody>
+</table>
+</body>
+</html>

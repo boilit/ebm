@@ -1,36 +1,40 @@
-package org.boilit.ebm.engines;
+package org.boilit.ebm.engine;
 
-import org.boilit.ebm.*;
+import org.boilit.ebm.AbstractEngine;
+import org.boilit.ebm.IEngine;
+import org.boilit.ebm.StockModel;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
+import java.io.OutputStream;
 import java.io.Writer;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * @author Boilit
  * @see
  */
-public final class JdkString extends Benchmark {
+public final class JdkStringBuffer extends AbstractEngine {
 
     @Override
-    public void init() {
+    public String getName() {
+        return "JdkStringBuffer";
     }
 
     @Override
-    protected void workOnBytes(List<StockModel> items) throws Exception {
-        this.workOnChars(items);
+    public String getVersion() {
+        return System.getProperty("java.version");
     }
 
     @Override
-    protected void workOnChars(List<StockModel> items) throws Exception {
-        StringBuilder builder = new StringBuilder();
+    public final void work(final Map<String, Object> model, final Writer writer) throws Exception {
+        final String outputEncoding = (String) model.get("outputEncoding");
+        final StringBuffer builder = new StringBuffer();
         builder.append("<!DOCTYPE html>\n").append(
                 "<html>\n").append(
                 "<head>\n").append(
                 "    <title>StockModel - Bsl</title>\n").append(
-                "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=").append(this.getOutputEncoding()).append("\"/>\n").append(
+                "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=").append(outputEncoding).append("\"/>\n").append(
                 "\n").append(
                 "    <style type=\"text/css\">\n").append(
                 "        body {\n").append(
@@ -72,6 +76,7 @@ public final class JdkString extends Benchmark {
                 "    </tr>\n").append(
                 "    </thead>\n").append(
                 "    <tbody>\n");
+        List<StockModel> items = (List<StockModel>)model.get("items");
         StockModel item;
         final int size = items.size();
         for (int i = 0; i < size; i++) {
@@ -97,23 +102,11 @@ public final class JdkString extends Benchmark {
                 "</table>\n").append(
                 "</body>\n").append(
                 "</html>");
-        final Writer writer = this.getWriter();
         writer.write(builder.toString());
-        this.close(writer);
     }
 
-    public static void main(String[] args) throws Exception {
-        EngineInfo ei = EngineInfoFactory.getJdkStringEngineInfo();
-        Benchmark benchmark = Utilities.inject(args);
-        benchmark.run();
-
-        File file = new File(Utilities.getClassPath(), ei.getName().concat(".txt"));
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.write(ei.getName() + ";");
-        writer.write(ei.getVersion() + ";");
-        writer.write(benchmark.getElapsedTime() + ";");
-        writer.write(String.valueOf(benchmark.getOutputSize()));
-        writer.flush();
-        writer.close();
+    @Override
+    public final boolean isSupportByteStream() {
+        return false;
     }
 }
