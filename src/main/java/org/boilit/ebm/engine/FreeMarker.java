@@ -30,6 +30,11 @@ public final class FreeMarker extends AbstractEngine {
     }
 
     @Override
+    public String getSite() {
+        return "http://freemarker.org";
+    }
+
+    @Override
     public final void init(Properties properties) throws Exception {
         templateUrl = "/ftl.html";
 

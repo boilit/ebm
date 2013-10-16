@@ -24,7 +24,12 @@ public final class BSL extends AbstractEngine {
 
     @Override
     public String getVersion() {
-        return "2.0.1";
+        return "2.0.2";
+    }
+
+    @Override
+    public String getSite() {
+        return "http://boilit.github.io/bsl";
     }
 
     @Override

@@ -1,0 +1,87 @@
+﻿<!--[ arg flotr2ie, flotr2, date, loopCount, results, engineCount; ]-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+        a {
+            white-space:nowrap;
+            font-size: 12px;
+            text-decoration: none;
+        }
+        a:active {
+            color: #0000ff;
+        }
+        a:hover {
+            color: #ff0000;
+        }
+        a.engine {
+            margin-right: 120px;
+            text-align: right;
+        }
+        div.baner {
+            padding: 4px;
+            text-align: center;
+            color: #ff0000;
+            font-size: 11pt;
+            font-weight: 600;
+        }
+        div.title {
+            text-align: center;
+            color: #0000ff;
+            font-size: 11pt;
+            font-weight: 600;
+        }
+        div.canvas {
+            width: 70%;
+            height: ${ engineCount * 24 }px;
+            margin: 4px auto;
+        }
+    </style>
+</head>
+<body style="text-align: center;">
+<div class="baner">以下测试结果由<a href="https://github.com/boilit/ebm">Engine Benchmark 2.0.0</a>生成， 测试日期：${date, 'yyyy-MM-dd'}</div>
+<hr/>
+<div class="title">每秒钟渲染模板次数：越大越好</div>
+<div id="tps" class="canvas"></div>
+<div class="title">渲染${loopCount}次耗时(ms)：越小越好</div>
+<div id="time" class="canvas"></div>
+<div class="title">单次渲染输出字节数：大小与排版的取舍?</div>
+<div id="size" class="canvas"></div>
+\<!--[if IE]>
+<script type="text/javascript">${flotr2ie}</script>
+<script type="text/javascript">
+    alert('建议使用Chrome、Firefox等浏览器，IE浏览器下引擎名称会换行！');
+</script>
+<![endif]-->
+<script type="text/javascript">${flotr2}</script>
+<script type="text/javascript">
+    function bars(container, data, yAxis) {
+        Flotr.draw(
+                container, [data], {
+                    bars: { show: true, horizontal: true, shadowSize: 0.2, barWidth:0.8 },
+                    mouse: { track: true, relative: true },
+                    xaxis: { min: 0, showLabels: true},
+                    yaxis: { ticks: yAxis, min:0 }
+                }
+        );
+    }
+    (function basic_bars(container, horizontal) {
+        var tps = [], time=[], size=[], yAxis = [];
+        <!--[ loop(result:results){]-->
+        tps.push([${result.tps}, ${result_index+1}]);
+        time.push([${result.time}, ${result_index+1}]);
+        size.push([${result.size}, ${result_index+1}]);
+        yAxis.push([${result_index+1}, '<a href="${result.site}" class="engine">${result.name}</a>']);
+        <!--[ }]-->
+        bars(document.getElementById("tps"), tps, yAxis);
+        bars(document.getElementById("time"), time, yAxis);
+        bars(document.getElementById("size"), size, yAxis);
+    })();
+</script>
+</body>
+</html>

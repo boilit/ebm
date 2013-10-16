@@ -32,6 +32,11 @@ public final class BeeTL extends AbstractEngine {
     }
 
     @Override
+    public String getSite() {
+        return "http://ibeetl.com/wordpress";
+    }
+
+    @Override
     public final void init(Properties properties) throws Exception {
         templateUrl = "/beetl.html";
 

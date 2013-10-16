@@ -29,6 +29,11 @@ public final class WebitScript extends AbstractEngine {
     }
 
     @Override
+    public String getSite() {
+        return "https://github.com/zqq90/webit-script";
+    }
+
+    @Override
     public final void init(Properties properties) throws Exception {
         templateUrl = "/templates/webit.html";
 

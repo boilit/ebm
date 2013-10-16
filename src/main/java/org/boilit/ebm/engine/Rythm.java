@@ -28,6 +28,11 @@ public final class Rythm extends AbstractEngine {
     }
 
     @Override
+    public String getSite() {
+        return "http://rythmengine.org";
+    }
+
+    @Override
     public final void init(Properties properties) throws Exception {
         templateUrl = "templates/rythm.html";
 

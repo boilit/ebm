@@ -14,6 +14,8 @@ public interface IEngine {
 
     public abstract String getVersion();
 
+    public abstract String getSite();
+
     public abstract void init(Properties properties) throws Exception;
 
     public abstract void work(Map<String, Object> model, Writer writer) throws Exception;

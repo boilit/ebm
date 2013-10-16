@@ -1,7 +1,11 @@
 package org.boilit.ebm;
 
+import org.boilit.bsl.Engine;
+import org.boilit.bsl.formatter.DateFormatter;
+import org.boilit.bsl.xio.FileResourceLoader;
+
 import java.io.*;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @author Boilit
@@ -20,12 +24,11 @@ public final class Benchmark {
         File commandFile;
         File resultFile;
         Process process;
-        System.out.print(fit("Engine", 30, false));
-        System.out.print(fit("Time", 10, true));
-        System.out.print(fit("Size", 15, true));
-        System.out.println();
+        final int warm = Integer.parseInt(properties.getProperty("warm"));
+        final int loop = Integer.parseInt(properties.getProperty("loop"));
         for (int i = 0, n = engineClassNames.length; i < n; i++) {
             engines[i] = (IEngine) classLoader.loadClass(engineClassNames[i].trim()).newInstance();
+            System.out.println("processing Engine[" + engines[i].getName() + "]...");
             commandFile = new File(classPath, engines[i].getName() + ".bat");
             resultFile = new File(classPath, engines[i].getName() + ".txt");
             Benchmark.generateCmdFile(commandFile, engineClassNames[i], config, properties);
@@ -34,11 +37,51 @@ public final class Benchmark {
             commandFile.delete();
             results[i] = readResultFile(resultFile);
             resultFile.delete();
-//            System.out.println(results[i].name + "," + results[i].time + "," + results[i].size + "," + results[i].memory);
-            System.out.print(fit(results[i].name, 30, false));
-            System.out.print(fit(results[i].time, 10, true));
-            System.out.print(fit(results[i].size, 15, true));
-            System.out.println();
+            results[i].site = engines[i].getSite();
+            results[i].tps = loop * 1000 / results[i].time;
+            results[i].size /= (warm + loop);
+        }
+        Arrays.sort(results, new Comparator<Result>() {
+            @Override
+            public int compare(Result o1, Result o2) {
+                if (o1.tps < o2.tps) {
+                    return -1;
+                } else if (o1.tps > o2.tps) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+        File baseFile = new File(Benchmark.class.getResource("/tpl").getPath());
+        String template = new File(baseFile, "tpl.html").getAbsolutePath();
+        File report = new File(baseFile.getParentFile(), "report.html");
+        if (!report.getParentFile().exists()) {
+            report.getParentFile().mkdirs();
+        }
+        if (!report.exists()) {
+            report.createNewFile();
+        }
+        OutputStream fos = new FileOutputStream(report);
+        Engine engine = new Engine();
+        engine.getTemplateCache().clear();
+        engine.setInputEncoding("UTF-8");
+        engine.setOutputEncoding("UTF-8");
+        engine.registerFormatter(Date.class, new DateFormatter("yyyy-MM-dd"));
+        engine.setResourceLoader(new FileResourceLoader());
+        try {
+            Map<String, Object> model = new HashMap<String, Object>();
+            model.put("flotr2ie", readFile(new File(baseFile, "flotr2.ie.min.js")));
+            model.put("flotr2", readFile(new File(baseFile, "flotr2.min.js")));
+            model.put("engineCount", engines.length);
+            model.put("loopCount", loop);
+            model.put("results", results);
+            model.put("date", new Date());
+            engine.getTemplate(template).execute(model, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            fos.close();
         }
     }
 
@@ -82,8 +125,8 @@ public final class Benchmark {
             bw.newLine();
             bw.write("@%JAVA_HOME%\\bin\\java");
             final String jvm = properties.getProperty("jvm", "");
-            if(jvm != null && jvm.trim().length()>0) {
-                bw.write(" "+jvm.trim());
+            if (jvm != null && jvm.trim().length() > 0) {
+                bw.write(" " + jvm.trim());
             }
             final int mode = Integer.parseInt(properties.getProperty("mode", "0"));
             if (mode == 1) {
@@ -132,22 +175,28 @@ public final class Benchmark {
         return result;
     }
 
-    private static final String fit(final Object value, final int size, final boolean previous) {
-        final String string = value == null ? "" : value.toString();
-        final StringBuffer buffer = new StringBuffer(string);
-        for (int i = size - string.length(); i >= 0; i--) {
-            if (previous) {
-                buffer.insert(0, ' ');
-            } else {
-                buffer.append(' ');
+    public static String readFile(File file) throws Exception {
+        final StringBuffer buffer = new StringBuffer();
+        final Reader reader = new InputStreamReader(new FileInputStream(file));
+        try{
+            int len;
+            char[] buff = new char[4096];
+            while ((len = reader.read(buff)) != -1) {
+                buffer.append(buff, 0, len);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
         }
         return buffer.toString();
     }
 
-    private static class Result {
-        private String name;
-        private long time;
-        private long size;
+    public static class Result {
+        public String name;
+        public String site;
+        public long time;
+        public long size;
+        public long tps;
     }
 }

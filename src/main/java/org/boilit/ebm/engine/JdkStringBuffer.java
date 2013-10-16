@@ -27,6 +27,11 @@ public final class JdkStringBuffer extends AbstractEngine {
     }
 
     @Override
+    public String getSite() {
+        return "#";
+    }
+
+    @Override
     public final void work(final Map<String, Object> model, final Writer writer) throws Exception {
         final String outputEncoding = (String) model.get("outputEncoding");
         final StringBuffer builder = new StringBuffer();
