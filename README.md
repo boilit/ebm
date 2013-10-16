@@ -17,7 +17,7 @@ Engine Benchmark
 <pre>
 交流QQ群：109365467
 
-测试结果：<a href="http://boilit.github.io/bsl/ability/jdk7utf8.html">测试结果</a>
+测试结果：<a href="http://boilit.github.io/bsl/zh/ability/jdk7utf8.html">测试结果</a>
 
 引擎参考：<a href="http://boilit.github.io/bsl">BSL网站</a>
 引擎参考：<a href="https://github.com/zqq90/webit-script">Webit-Script网站</a>
