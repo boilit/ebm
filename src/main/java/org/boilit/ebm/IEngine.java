@@ -10,11 +10,11 @@ import java.util.Properties;
  * @see
  */
 public interface IEngine {
-    public abstract String getName();
-
-    public abstract String getVersion();
-
-    public abstract String getSite();
+//    public abstract String getName();
+//
+//    public abstract String getVersion();
+//
+//    public abstract String getSite();
 
     public abstract void init(Properties properties) throws Exception;
 

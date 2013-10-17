@@ -22,21 +22,6 @@ public final class BeeTL extends AbstractEngine {
     private GroupTemplate engine;
 
     @Override
-    public String getName() {
-        return "BeeTL";
-    }
-
-    @Override
-    public String getVersion() {
-        return "1.25.01";
-    }
-
-    @Override
-    public String getSite() {
-        return "http://ibeetl.com/wordpress";
-    }
-
-    @Override
     public final void init(Properties properties) throws Exception {
         templateUrl = "/beetl.html";
 

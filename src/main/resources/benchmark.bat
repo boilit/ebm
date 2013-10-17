@@ -1,9 +1,9 @@
 @rem beta version, current version run error!
 @rem Please give libraries path.
-@rem set Libraries=D:\W04WorkSpace\Maven001\ebm\lib
+@set Libraries=D:\W04WorkSpace\Maven001\ebm\lib
 
 @rem Please give JAVA_HOME location to run benchmark
-@rem set JAVA_HOME=D:\Java\jdk7u40x64
+@set JAVA_HOME=D:\Java\jdk7u40x64
 
 @set PATH=.;%JAVA_HOME%\bin;
 @set CLASSPATH=%CD%;

@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
  */
 public final class Executor implements Runnable {
     private IEngine engine;
+    private String engineName;
     private Properties properties;
     private Writer writer;
     private OutputStream outputStream;
@@ -19,13 +20,13 @@ public final class Executor implements Runnable {
     @Override
     public void run() {
         try {
-            execute(engine, properties);
+            execute(engine, engineName, properties);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private final void execute(final IEngine engine, final Properties properties) throws Exception {
+    private final void execute(final IEngine engine, final String engineName, final Properties properties) throws Exception {
         final boolean buff = Boolean.parseBoolean(properties.getProperty("buff", "false"));
         final String outputEncoding = properties.getProperty("outputEncoding", "UTF-8");
         // set writer and output stream.
@@ -54,15 +55,15 @@ public final class Executor implements Runnable {
         final int outs = Integer.parseInt(properties.getProperty("outs", "0"));
         if (outs == IOutput.OUTS_BYTE_STREAM) {
             if(engine.isSupportByteStream()) {
-                Utilities.writeResult(engine, time, this.outputStream);
+                Utilities.writeResult(engineName, properties, time, this.outputStream);
             } else {
-                Utilities.writeResult(engine, time, this.writer);
+                Utilities.writeResult(engineName, properties, time, this.writer);
             }
         } else {
             if(engine.isSupportCharStream()) {
-                Utilities.writeResult(engine, time, this.writer);
+                Utilities.writeResult(engineName, properties, time, this.writer);
             } else {
-                Utilities.writeResult(engine, time, this.outputStream);
+                Utilities.writeResult(engineName, properties, time, this.outputStream);
             }
         }
         this.writer.close();
@@ -113,9 +114,10 @@ public final class Executor implements Runnable {
         final String config = arguments.getProperty("-config", "benchmark.properties");
         final Properties properties = Utilities.getProperties(config);
         final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        final String engineName = arguments.getProperty("-name", "NONE");
         final String engineClassName = arguments.getProperty("-engine");
         final IEngine engine = (IEngine) classLoader.loadClass(engineClassName).newInstance();
-        new File(classLoader.getResource("").getFile(), engine.getName() + ".txt").delete();
+        new File(classLoader.getResource("").getFile(), engineName + ".txt").delete();
         engine.init(properties);
         try {
             Executor executor;
@@ -125,6 +127,7 @@ public final class Executor implements Runnable {
                 for (int i = 0; i < thread; i++) {
                     executor = new Executor();
                     executor.engine = engine;
+                    executor.engineName = engineName;
                     executor.properties = properties;
                     threadPool.execute(executor);
                 }
@@ -134,6 +137,7 @@ public final class Executor implements Runnable {
             } else {
                 executor = new Executor();
                 executor.engine = engine;
+                executor.engineName = engineName;
                 executor.properties = properties;
                 executor.run();
             }

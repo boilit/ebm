@@ -24,7 +24,27 @@ public final class Utilities {
     public static final Properties getProperties(final String file) throws Exception {
         final Properties properties = new Properties();
         final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        final InputStream inputStream = classLoader.getResourceAsStream(file);
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (Exception e) {
+            inputStream = null;
+        }
+        if (inputStream == null) {
+            try {
+                inputStream = new FileInputStream(new File(classLoader.getResource("").getFile(), file));
+            } catch (Exception e) {
+                inputStream = null;
+                e.printStackTrace();
+            }
+        }
+        if (inputStream == null) {
+            try {
+                inputStream = classLoader.getResourceAsStream(file);
+            } catch (Exception e) {
+                inputStream = null;
+            }
+        }
         try {
             properties.load(inputStream);
         } catch (Exception e) {
@@ -37,26 +57,29 @@ public final class Utilities {
         return properties;
     }
 
-    public static final void writeResult(final IEngine engine, final long time, final OutputStream outputStream) throws Exception {
+    public static final void writeResult(final String engineName, final Properties properties,
+                                         final long time, final OutputStream outputStream) throws Exception {
         long size = 0;
         if (outputStream instanceof IOutput) {
             size = ((IOutput) outputStream).getStreamSize();
         }
-        writeResult(engine, time, size);
+        writeResult(engineName, properties, time, size);
     }
 
-    public static final void writeResult(final IEngine engine, final long time, final Writer writer) throws Exception {
+    public static final void writeResult(final String engineName, final Properties properties,
+                                         final long time, final Writer writer) throws Exception {
         long size = 0;
         if (writer instanceof IOutput) {
             size = ((IOutput) writer).getStreamSize();
         }
-        writeResult(engine, time, size);
+        writeResult(engineName, properties, time, size);
     }
 
-    private static final void writeResult(final IEngine engine, final long time, final long size) throws Exception {
+    private static final void writeResult(final String engineName, final Properties properties,
+                                          final long time, final long size) throws Exception {
         // write result to file.
         final String classPath = Thread.currentThread().getContextClassLoader().getResource("").getFile();
-        final File file = new File(classPath, engine.getName() + ".txt");
+        final File file = new File(classPath, engineName + ".txt");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
@@ -65,7 +88,7 @@ public final class Utilities {
         }
         final BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
         try {
-            bw.write(engine.getName() + "-" + engine.getVersion() + ";");
+            bw.write(engineName + "-" + properties.getProperty(engineName + ".version") + ";");
             bw.write(String.valueOf(time) + ";");
             bw.write(String.valueOf(size));
             bw.newLine();

@@ -1,9 +1,5 @@
 package org.boilit.ebm;
 
-import org.boilit.bsl.Engine;
-import org.boilit.bsl.formatter.DateFormatter;
-import org.boilit.bsl.xio.FileResourceLoader;
-
 import java.io.*;
 import java.util.*;
 
@@ -13,80 +9,54 @@ import java.util.*;
  */
 public final class Benchmark {
     public static void main(String[] args) throws Exception {
-        final Properties arguments = Utilities.getArguments(args);
-        final String config = arguments.getProperty("-config", "benchmark.properties");
-        final Properties properties = Utilities.getProperties(config);
-        final String[] engineClassNames = properties.getProperty("engines", "").split(";");
-        final IEngine[] engines = new IEngine[engineClassNames.length];
-        final Result[] results = new Result[engineClassNames.length];
         final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         final String classPath = classLoader.getResource("").getFile();
+        final Properties arguments = Utilities.getArguments(args);
+        final String report = arguments.getProperty("-report", classPath);
+        final String config = arguments.getProperty("-config", "benchmark.properties");
+        final Properties properties = Utilities.getProperties(config);
+        final String[] engineNames = properties.getProperty("engines", "").split(";");
+        final Result[] results = new Result[engineNames.length];
         File commandFile;
         File resultFile;
         Process process;
+        String engineName;
+        String engineSite;
         final int warm = Integer.parseInt(properties.getProperty("warm"));
         final int loop = Integer.parseInt(properties.getProperty("loop"));
-        for (int i = 0, n = engineClassNames.length; i < n; i++) {
-            engines[i] = (IEngine) classLoader.loadClass(engineClassNames[i].trim()).newInstance();
-            System.out.println("processing Engine[" + engines[i].getName() + "]...");
-            commandFile = new File(classPath, engines[i].getName() + ".bat");
-            resultFile = new File(classPath, engines[i].getName() + ".txt");
-            Benchmark.generateCmdFile(commandFile, engineClassNames[i], config, properties);
-            process = Runtime.getRuntime().exec("cmd /c " + engines[i].getName() + ".bat", new String[]{}, new File(classPath));
+        for (int i = 0, n = engineNames.length; i < n; i++) {
+            engineName = engineNames[i].trim();
+            engineSite = properties.getProperty(engineName + ".site", "");
+            System.out.println("processing Engine[" + engineNames[i].trim() + "]...");
+            commandFile = new File(classPath, engineNames[i].trim() + ".bat");
+            resultFile = new File(classPath, engineNames[i].trim() + ".txt");
+            Benchmark.generateCmdFile(classPath, commandFile, engineName, config, properties);
+            process = Runtime.getRuntime().exec("cmd /c " + engineName + ".bat", new String[]{}, new File(classPath));
             process.waitFor();
             commandFile.delete();
             results[i] = readResultFile(resultFile);
             resultFile.delete();
-            results[i].site = engines[i].getSite();
-            results[i].tps = loop * 1000 / results[i].time;
-            results[i].size /= (warm + loop);
+            results[i].setSite(engineSite);
+            results[i].setTps(loop * 1000 / results[i].getTime());
+            results[i].setSize(results[i].getSize() / (warm + loop));
         }
         Arrays.sort(results, new Comparator<Result>() {
             @Override
             public int compare(Result o1, Result o2) {
-                if (o1.tps < o2.tps) {
+                if (o1.getTps() < o2.getTps()) {
                     return -1;
-                } else if (o1.tps > o2.tps) {
+                } else if (o1.getTps() > o2.getTps()) {
                     return 1;
                 } else {
                     return 0;
                 }
             }
         });
-        File baseFile = new File(Benchmark.class.getResource("/tpl").getPath());
-        String template = new File(baseFile, "tpl.html").getAbsolutePath();
-        File report = new File(baseFile.getParentFile(), "report.html");
-        if (!report.getParentFile().exists()) {
-            report.getParentFile().mkdirs();
-        }
-        if (!report.exists()) {
-            report.createNewFile();
-        }
-        OutputStream fos = new FileOutputStream(report);
-        Engine engine = new Engine();
-        engine.getTemplateCache().clear();
-        engine.setInputEncoding("UTF-8");
-        engine.setOutputEncoding("UTF-8");
-        engine.registerFormatter(Date.class, new DateFormatter("yyyy-MM-dd"));
-        engine.setResourceLoader(new FileResourceLoader());
-        try {
-            Map<String, Object> model = new HashMap<String, Object>();
-            model.put("flotr2ie", readFile(new File(baseFile, "flotr2.ie.min.js")));
-            model.put("flotr2", readFile(new File(baseFile, "flotr2.min.js")));
-            model.put("engineCount", engines.length);
-            model.put("loopCount", loop);
-            model.put("results", results);
-            model.put("date", new Date());
-            engine.getTemplate(template).execute(model, fos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            fos.close();
-        }
+        Report.write(loop, results, new File(report));
     }
 
     private static final void generateCmdFile(
-            final File commandFile, final String engineClassName,
+            final String classPath, final File commandFile, final String engineName,
             final String config, final Properties properties) throws Exception {
         if (!commandFile.getParentFile().exists()) {
             commandFile.getParentFile().mkdirs();
@@ -111,16 +81,8 @@ public final class Benchmark {
             bw.write("@set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\\jre\\lib\\rt.jar");
             bw.newLine();
             final String lib = properties.getProperty("lib", "");
-            if (lib.trim().length() > 0) {
-                final File[] files = new File(lib).listFiles();
-                if (files != null) {
-                    for (int i = 0, n = files.length; i < n; i++) {
-                        bw.write("@set CLASSPATH=%CLASSPATH%;");
-                        bw.write(files[i].getAbsolutePath());
-                        bw.newLine();
-                    }
-                }
-            }
+            appendLibraryJarsToClassPath(bw, lib.trim().length() == 0 ? classPath : lib);
+            appendLibraryJarsToClassPath(bw, (lib.trim().length() == 0 ? classPath : lib) + "/lib");
             bw.write("@set CLASSPATH=%CLASSPATH%;" + commandFile.getParentFile().getAbsolutePath() + ";");
             bw.newLine();
             bw.write("@%JAVA_HOME%\\bin\\java");
@@ -136,16 +98,34 @@ public final class Benchmark {
             }
             bw.write(" ");
             bw.write(Executor.class.getName());
+            bw.write(" -name ");
+            bw.write(engineName.trim());
             bw.write(" -engine ");
-            bw.write(engineClassName.trim());
+            bw.write(properties.getProperty(engineName.trim() + ".engine").trim());
             bw.write(" -config ");
-            bw.write(config);
+            bw.write(config.trim());
             bw.newLine();
         } catch (Exception e) {
             throw e;
         } finally {
             if (bw != null) {
                 bw.close();
+            }
+        }
+    }
+
+    private static void appendLibraryJarsToClassPath(BufferedWriter bw, final String lib) throws Exception {
+        if (lib.trim().length() > 0) {
+            final File[] files = new File(lib).listFiles();
+            if (files != null) {
+                for (int i = 0, n = files.length; i < n; i++) {
+                    if (!files[i].getName().endsWith(".jar")) {
+                        continue;
+                    }
+                    bw.write("@set CLASSPATH=%CLASSPATH%;");
+                    bw.write(files[i].getAbsolutePath());
+                    bw.newLine();
+                }
             }
         }
     }
@@ -161,9 +141,9 @@ public final class Benchmark {
                     continue;
                 }
                 resultArray = line.split(";");
-                result.name = resultArray[0];
-                result.time += Long.parseLong(resultArray[1]);
-                result.size += Long.parseLong(resultArray[2]);
+                result.setName(resultArray[0]);
+                result.setTime(result.getTime() + Long.parseLong(resultArray[1]));
+                result.setSize(result.getSize() + Long.parseLong(resultArray[2]));
             }
         } catch (Exception e) {
             throw e;
@@ -173,30 +153,5 @@ public final class Benchmark {
             }
         }
         return result;
-    }
-
-    public static String readFile(File file) throws Exception {
-        final StringBuffer buffer = new StringBuffer();
-        final Reader reader = new InputStreamReader(new FileInputStream(file));
-        try{
-            int len;
-            char[] buff = new char[4096];
-            while ((len = reader.read(buff)) != -1) {
-                buffer.append(buff, 0, len);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            reader.close();
-        }
-        return buffer.toString();
-    }
-
-    public static class Result {
-        public String name;
-        public String site;
-        public long time;
-        public long size;
-        public long tps;
     }
 }

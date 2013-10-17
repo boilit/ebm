@@ -17,21 +17,6 @@ import java.util.Properties;
 public final class JdkStringBuilder extends AbstractEngine {
 
     @Override
-    public String getName() {
-        return "JdkStringBuilder";
-    }
-
-    @Override
-    public String getVersion() {
-        return System.getProperty("java.version");
-    }
-
-    @Override
-    public String getSite() {
-        return "#";
-    }
-
-    @Override
     public final void work(final Map<String, Object> model, final Writer writer) throws Exception {
         final String outputEncoding = (String) model.get("outputEncoding");
         final StringBuilder builder = new StringBuilder();

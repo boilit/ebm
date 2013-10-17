@@ -19,21 +19,6 @@ public final class WebitScript extends AbstractEngine {
     private webit.script.Engine engine_chars;
 
     @Override
-    public String getName() {
-        return "webit-script";
-    }
-
-    @Override
-    public String getVersion() {
-        return "1.1.5";
-    }
-
-    @Override
-    public String getSite() {
-        return "https://github.com/zqq90/webit-script";
-    }
-
-    @Override
     public final void init(Properties properties) throws Exception {
         templateUrl = "/templates/webit.html";
 

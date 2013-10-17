@@ -20,21 +20,6 @@ public final class Velocity extends AbstractEngine {
     private VelocityEngine engine;
 
     @Override
-    public String getName() {
-        return "Velocity";
-    }
-
-    @Override
-    public String getVersion() {
-        return "1.7";
-    }
-
-    @Override
-    public String getSite() {
-        return "http://velocity.apache.org";
-    }
-
-    @Override
     public final void init(Properties properties) throws Exception {
         templateUrl = "/vm.html";
 

@@ -18,21 +18,6 @@ public final class HTTL extends AbstractEngine {
     private Engine engine;
 
     @Override
-    public String getName() {
-        return "HTTL";
-    }
-
-    @Override
-    public String getSite() {
-        return "http://httl.github.io";
-    }
-
-    @Override
-    public String getVersion() {
-        return "1.0.11";
-    }
-
-    @Override
     public final void init(Properties properties) throws Exception {
         templateUrl = "/templates/httl.html";
 

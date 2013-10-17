@@ -18,21 +18,6 @@ public final class BSL extends AbstractEngine {
     private Engine engine;
 
     @Override
-    public String getName() {
-        return "BSL";
-    }
-
-    @Override
-    public String getVersion() {
-        return "2.0.2";
-    }
-
-    @Override
-    public String getSite() {
-        return "http://boilit.github.io/bsl";
-    }
-
-    @Override
     public final void init(Properties properties) throws Exception {
         templateUrl = BSL.class.getResource("/templates/bsl.html").getPath();
 

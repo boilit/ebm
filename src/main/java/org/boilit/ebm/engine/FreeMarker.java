@@ -20,21 +20,6 @@ public final class FreeMarker extends AbstractEngine {
     private Configuration engine;
 
     @Override
-    public String getName() {
-        return "FreeMarker";
-    }
-
-    @Override
-    public String getVersion() {
-        return "2.3.19";
-    }
-
-    @Override
-    public String getSite() {
-        return "http://freemarker.org";
-    }
-
-    @Override
     public final void init(Properties properties) throws Exception {
         templateUrl = "/ftl.html";
 

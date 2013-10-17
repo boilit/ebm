@@ -18,21 +18,6 @@ public final class Rythm extends AbstractEngine {
     private RythmEngine engine;
 
     @Override
-    public String getName() {
-        return "Rythm";
-    }
-
-    @Override
-    public String getVersion() {
-        return "1.0.0-b10-SNAPSHOT";
-    }
-
-    @Override
-    public String getSite() {
-        return "http://rythmengine.org";
-    }
-
-    @Override
     public final void init(Properties properties) throws Exception {
         templateUrl = "templates/rythm.html";
 
