@@ -74,6 +74,8 @@ public final class Benchmark {
             }
             bw.write("@set PATH=.;%JAVA_HOME%\\bin;");
             bw.newLine();
+            bw.write("@set CLASSPATH=;");
+            bw.newLine();
             bw.write("@set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\\lib\\tools.jar");
             bw.newLine();
             bw.write("@set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\\lib\\dt.jar");

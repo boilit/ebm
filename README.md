@@ -21,6 +21,7 @@ Engine Benchmark
 
 引擎参考：<a href="http://boilit.github.io/bsl">BSL网站</a>
 引擎参考：<a href="https://github.com/zqq90/webit-script">Webit-Script网站</a>
+引擎参考：<a href="https://subchen.github.io/jetbrick-template/">Jetbrick Template网站</a>
 引擎参考：<a href="http://httl.github.io">HTTL网站</a>
 引擎参考：<a href="http://ibeetl.com/wordpress">BeeTL网站</a>
 引擎参考：<a href="http://rythmengine.org">Rythm网站</a>
