@@ -13,6 +13,15 @@
     </properties>
     
     <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/lib</directory>
+                <targetPath>lib</targetPath>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
