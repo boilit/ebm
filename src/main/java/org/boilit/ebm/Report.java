@@ -134,41 +134,41 @@ public final class Report {
               .append("</html>");
         //@formatter:on
 
-        copyFlotr2(directory);
-        copyFlotr2ie(directory);
+        //copyFlotr2(directory);
+        //copyFlotr2ie(directory);
         writeReport(directory, buffer.toString());
     }
 
-    private static void copyFlotr2(File dir) throws Exception {
-        copyJs(dir, "flotr2.min.js");
-    }
+//    private static void copyFlotr2(File dir) throws Exception {
+//        copyJs(dir, "flotr2.min.js");
+//    }
+//
+//    private static void copyFlotr2ie(File dir) throws Exception {
+//        copyJs(dir, "flotr2.ie.min.js");
+//    }
 
-    private static void copyFlotr2ie(File dir) throws Exception {
-        copyJs(dir, "flotr2.ie.min.js");
-    }
-
-    private static void copyJs(File dir, String js) throws Exception {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        File file = createFile(dir, js);
-        InputStream inputStream = classLoader.getResourceAsStream("tpl/" + js);
-        OutputStream outputStream = null;
-        try {
-            byte[] b = new byte[1024];
-            outputStream = new FileOutputStream(file);
-            int len;
-            while ((len = inputStream.read(b, 0, b.length)) != -1) {
-                outputStream.write(b, 0, len);
-            }
-            outputStream.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (outputStream != null) {
-                outputStream.close();
-            }
-            if (inputStream != null) inputStream.close();
-        }
-    }
+//    private static void copyJs(File dir, String js) throws Exception {
+//        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+//        File file = createFile(dir, js);
+//        InputStream inputStream = classLoader.getResourceAsStream("tpl/" + js);
+//        OutputStream outputStream = null;
+//        try {
+//            byte[] b = new byte[1024];
+//            outputStream = new FileOutputStream(file);
+//            int len;
+//            while ((len = inputStream.read(b, 0, b.length)) != -1) {
+//                outputStream.write(b, 0, len);
+//            }
+//            outputStream.flush();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (outputStream != null) {
+//                outputStream.close();
+//            }
+//            if (inputStream != null) inputStream.close();
+//        }
+//    }
 
     private static void writeReport(File dir, String html) throws Exception {
         File file = createFile(dir, "report.html");
