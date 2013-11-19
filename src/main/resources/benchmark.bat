@@ -1,9 +1,24 @@
-@rem Please give BenchmarkLocation.jar location to find engine's depend jars.
-@set Libraries=D:\W04WorkSpace\Maven001\ebm\lib\BenchmarkLocation.jar
+@rem beta version, current version run error!
+@rem Please give libraries path.
+@set Libraries=D:\W04WorkSpace\Maven001\ebm\lib
+
 @rem Please give JAVA_HOME location to run benchmark
 @set JAVA_HOME=D:\Java\jdk7u40x64
-@set PATH=.;%JAVA_HOME%\bin;%PATH%
-@set CLASSPATH=%JAVA_HOME%\lib\tool.jar;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\jre\lib\rt.jar;%Libraries%;%CD%;%CLASSPATH%
-@set PARAMETERS= -mode DEFAULT -warmCount 10 -loopCount 10000 -buffered false -outputEncoding UTF-8 -outputModel BYTES -capacity 2
-@%JAVA_HOME%\bin\java org.boilit.ebm.Main %PARAMETERS%
-@pause
+
+@set PATH=.;%JAVA_HOME%\bin;
+@set CLASSPATH=%CD%;
+@for /F "delims=" %%i in ('dir /A:-D /B /S "%Libraries%"') do @if exist %%i (
+	@call :SetClassPath %%i
+)
+@set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\lib\tools.jar
+@set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\lib\dt.jar
+@set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\jre\lib\rt.jar
+
+@%JAVA_HOME%\bin\java org.boilit.ebm.Benchmark -config benchmark.properties
+
+@pause 
+
+@rem ========================SetClassPath Function============================
+:SetClassPath
+@set CLASSPATH=%CLASSPATH%;%1
+@GOTO :EOF
