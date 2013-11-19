@@ -12,6 +12,24 @@ Engine Benchmark
 
 </pre>
 
+使用
+===
+###1.编译
+<pre>
+mvn clean install
+</pre>
+
+###2.修改参数
++ /target/classes/benchmark.bat
++ /target/classes/benchmark.properties
+
+###3.运行
++ Windows 下执行
+<pre>
+/target/classes/benchmark.bat
+</pre>
++ Linux暂未支持
+
 参考资料
 ===
 <pre>
