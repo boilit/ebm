@@ -14,7 +14,7 @@
 @set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\lib\dt.jar
 @set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\jre\lib\rt.jar
 
-@%JAVA_HOME%\bin\java org.boilit.ebm.Benchmark -config benchmark.properties -jdk %JAVA_HOME%
+@"%JAVA_HOME%\bin\java" org.boilit.ebm.Benchmark -config benchmark.properties -jdk "%JAVA_HOME%"
 
 @pause 
 

@@ -89,7 +89,7 @@ public final class Benchmark {
             appendLibraryJarsToClassPath(bw, (lib.trim().length() == 0 ? classPath : lib) + "/lib");
             bw.write("@set CLASSPATH=%CLASSPATH%;" + commandFile.getParentFile().getAbsolutePath() + ";");
             bw.newLine();
-            bw.write("@%JAVA_HOME%\\bin\\java");
+            bw.write("@\"%JAVA_HOME%\\bin\\java\"");
             final String jvm = properties.getProperty("jvm", "");
             if (jvm != null && jvm.trim().length() > 0) {
                 bw.write(" " + jvm.trim());
