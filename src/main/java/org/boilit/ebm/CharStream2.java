@@ -10,6 +10,12 @@ public final class CharStream2 extends Writer implements IOutput {
 
     private long streamSize = 0;
 
+    public CharStream2() {
+    }
+
+    public CharStream2(final String encoding) {
+    }
+
     @Override
     public void write(char[] cbuf, int off, int len) throws IOException {
         streamSize += len;
