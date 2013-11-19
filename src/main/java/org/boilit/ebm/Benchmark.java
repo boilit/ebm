@@ -14,6 +14,7 @@ public final class Benchmark {
         final Properties arguments = Utilities.getArguments(args);
         final String report = arguments.getProperty("-report", classPath);
         final String config = arguments.getProperty("-config", "benchmark.properties");
+        final String defaultJavaHome = arguments.getProperty("-jdk", "");
         final Properties properties = Utilities.getProperties(config);
         final String[] engineNames = properties.getProperty("engines", "").split(";");
         final Result[] results = new Result[engineNames.length];
@@ -30,7 +31,7 @@ public final class Benchmark {
             System.out.println("processing Engine[" + engineNames[i].trim() + "]...");
             commandFile = new File(classPath, engineNames[i].trim() + ".bat");
             resultFile = new File(classPath, engineNames[i].trim() + ".txt");
-            Benchmark.generateCmdFile(classPath, commandFile, engineName, config, properties);
+            Benchmark.generateCmdFile(classPath, commandFile, engineName, config, properties, defaultJavaHome);
             process = Runtime.getRuntime().exec("cmd /c " + engineName + ".bat", new String[]{}, new File(classPath));
             process.waitFor();
             commandFile.delete();
@@ -57,7 +58,7 @@ public final class Benchmark {
 
     private static final void generateCmdFile(
             final String classPath, final File commandFile, final String engineName,
-            final String config, final Properties properties) throws Exception {
+            final String config, final Properties properties, final String defaultJavaHome) throws Exception {
         if (!commandFile.getParentFile().exists()) {
             commandFile.getParentFile().mkdirs();
         }
@@ -66,7 +67,7 @@ public final class Benchmark {
         }
         final BufferedWriter bw = new BufferedWriter(new FileWriter(commandFile));
         try {
-            final String javaHome = properties.getProperty("jdk", "");
+            final String javaHome = properties.getProperty("jdk", defaultJavaHome);
             if (javaHome.trim().length() > 0) {
                 bw.write("@set JAVA_HOME=");
                 bw.write(javaHome);
