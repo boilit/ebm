@@ -37,14 +37,27 @@ mvn clean install
 
 测试结果：<a href="http://boilit.github.io/bsl/zh/ability/jdk7utf8.html">测试结果</a>
 
-引擎参考：<a href="http://boilit.github.io/bsl">BSL网站</a>
-引擎参考：<a href="https://github.com/zqq90/webit-script">Webit-Script网站</a>
-引擎参考：<a href="http://subchen.github.io/jetbrick-template/">jetbrick-template 网站</a>
-引擎参考：<a href="http://httl.github.io">HTTL网站</a>
-引擎参考：<a href="http://ibeetl.com/wordpress">BeeTL网站</a>
-引擎参考：<a href="http://rythmengine.org">Rythm网站</a>
-引擎参考：<a href="http://velocity.apache.org">Velocity网站</a>
-引擎参考：<a href="http://freemarker.org">FreeMarker网站</a>
+引擎参考：
+  BSL
+    项目地址:https://github.com/boilit/bsl
+    官方地址:http://boilit.github.io/bsl
+  Webit-Script
+    项目地址:https://github.com/zqq90/webit-script
+    官方地址:http://zqq90.github.io/webit-script
+  JetBrick-Template
+    项目地址:https://github.com/subchen/jetbrick-template
+    官方地址:http://subchen.github.io/jetbrick-template
+  HTTL
+    项目地址:https://github.com/httl/httl
+    官方地址:http://httl.github.io
+  Beetl
+    官方地址:http://ibeetl.com/wordpress
+  Rythm
+    官方地址:http://rythmengine.org
+  Velocity
+    官方地址:http://velocity.apache.org
+  FreeMarker
+    官方地址:http://freemarker.org
 </pre>
 
 软件作者
