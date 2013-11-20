@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>StockModel - Httl</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=${outputEncoding}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=$!{outputEncoding}"/>
 
     <style type="text/css">
         body {
@@ -46,15 +46,15 @@
     </thead>
     <tbody>
     #for(org.boilit.ebm.StockModel item : items)
-    <tr class="${for.index % 2 == 1 ? "even" : "odd"}">
-        <td>${for.index}</td>
-        <td>${item.id}</td>
-        <td>${item.code}</td>
-        <td style="text-align: left;">${item.name}</td>
-        <td>${item.price}</td>
-        <td style="color: ${item.range>=10?'red':'blue'};">${item.range}%</td>
-        <td>${item.amount}</td>
-        <td style="color: ${item.gravity>=20?'red':'blue'};">${item.gravity}%</td>
+    <tr class="$!{for.index % 2 == 1 ? "even" : "odd"}">
+        <td>$!{for.index}</td>
+        <td>$!{item.id}</td>
+        <td>$!{item.code}</td>
+        <td style="text-align: left;">$!{item.name}</td>
+        <td>$!{item.price}</td>
+        <td style="color: $!{item.range>=10?'red':'blue'};">$!{item.range}%</td>
+        <td>$!{item.amount}</td>
+        <td style="color: $!{item.gravity>=20?'red':'blue'};">$!{item.gravity}%</td>
     </tr>
     #end
     </tbody>

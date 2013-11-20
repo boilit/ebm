@@ -31,7 +31,7 @@ public final class Executor implements Runnable {
         final String outputEncoding = properties.getProperty("outputEncoding", "UTF-8");
         // set writer and output stream.
         final String byteStreamClassName = properties.getProperty("byteStream", ByteStream.class.getName());
-        final String charStreamClassName = properties.getProperty("charStream", ByteStream.class.getName());
+        final String charStreamClassName = properties.getProperty("charStream", CharStream.class.getName());
         final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         this.outputStream = (OutputStream) classLoader.loadClass(byteStreamClassName).newInstance();
         final Class charStreamClass = classLoader.loadClass(charStreamClassName);
