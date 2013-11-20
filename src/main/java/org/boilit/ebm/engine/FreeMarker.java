@@ -3,10 +3,8 @@ package org.boilit.ebm.engine;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import org.boilit.ebm.AbstractEngine;
-import org.boilit.ebm.IEngine;
 
 import java.io.File;
-import java.io.OutputStream;
 import java.io.Writer;
 import java.util.Map;
 import java.util.Properties;

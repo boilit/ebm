@@ -22,6 +22,8 @@ public final class JetbrickTemplate extends AbstractEngine {
 
         Properties prop = new Properties();
         prop.setProperty(JetConfig.COMPILE_DEBUG, "false");
+        prop.setProperty(JetConfig.INPUT_ENCODING, properties.getProperty("inputEncoding", "UTF-8"));
+        prop.setProperty(JetConfig.OUTPUT_ENCODING, properties.getProperty("outputEncoding", "UTF-8"));
         engine = JetEngine.create(prop);
     }
 
