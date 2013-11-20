@@ -20,7 +20,6 @@ public final class FreeMarker extends AbstractEngine {
     @Override
     public final void init(Properties properties) throws Exception {
         templateUrl = "/ftl.html";
-
         engine = new Configuration();
         engine.setDefaultEncoding(properties.getProperty("outputEncoding", "UTF-8"));
         engine.setDirectoryForTemplateLoading(new File(FreeMarker.class.getResource("/templates").getPath()));
