@@ -29,7 +29,13 @@ mvn clean install
 /target/classes/benchmark.bat
 </pre>
 + Linux暂未支持
-+ 
+
+
+测试结果：
+============
+
+![report.png](report.png)
+
 
 参考资料
 ===
