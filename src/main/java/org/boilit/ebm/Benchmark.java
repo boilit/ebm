@@ -33,7 +33,7 @@ public final class Benchmark {
             commandFile = new File(classPath, engineNames[i].trim() + ".bat");
             resultFile = new File(classPath, engineNames[i].trim() + ".txt");
             Benchmark.generateCmdFile(classPath, commandFile, engineName, config, properties, defaultJavaHome);
-            process = Runtime.getRuntime().exec("cmd /c " + engineName + ".bat >> out.info.log 2>> out.err.log", new String[]{}, new File(classPath));
+            process = Runtime.getRuntime().exec("cmd /c " + engineName + ".bat >> out.info.log 2>> out.err.log", null, new File(classPath));
             process.waitFor();
             commandFile.delete();
             results[i] = readResultFile(resultFile);
