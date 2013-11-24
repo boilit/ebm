@@ -103,8 +103,8 @@
         <dependency>
             <groupId>ebm</groupId>
             <artifactId>lib.jetbrick-template</artifactId>
-            <version>1.0.0</version>
-            <systemPath>${basedir}/lib/jetbrick-template-1.0.0.jar</systemPath>
+            <version>1.0.2</version>
+            <systemPath>${basedir}/lib/jetbrick-template-1.0.2.jar</systemPath>
             <scope>system</scope>
         </dependency>
         <dependency>
