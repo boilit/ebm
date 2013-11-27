@@ -1,5 +1,6 @@
 package org.boilit.ebm;
 
+import org.boilit.ebm.utils.Utilities;
 import java.io.*;
 import java.util.*;
 
@@ -33,7 +34,7 @@ public final class Benchmark {
             commandFile = new File(classPath, engineNames[i].trim() + ".bat");
             resultFile = new File(classPath, engineNames[i].trim() + ".txt");
             Benchmark.generateCmdFile(classPath, commandFile, engineName, config, properties, defaultJavaHome);
-            process = Runtime.getRuntime().exec("cmd /c " + engineName + ".bat >> out.info.log 2>> out.err.log", new String[]{}, new File(classPath));
+            process = Runtime.getRuntime().exec("cmd /c " + engineName + ".bat >> out.info.log 2>> out.err.log", null, new File(classPath));
             process.waitFor();
             commandFile.delete();
             results[i] = readResultFile(resultFile);
@@ -57,7 +58,7 @@ public final class Benchmark {
         Report.write(loop, results, new File(report));
     }
 
-    private static final void generateCmdFile(
+    private static void generateCmdFile(
             final String classPath, final File commandFile, final String engineName,
             final String config, final Properties properties, final String defaultJavaHome) throws Exception {
         if (!commandFile.getParentFile().exists()) {
@@ -74,8 +75,8 @@ public final class Benchmark {
                 bw.write(javaHome);
                 bw.newLine();
             }
-            bw.write("@set PATH=.;%JAVA_HOME%\\bin;");
-            bw.newLine();
+//            bw.write("@set PATH=.;%JAVA_HOME%\\bin;");
+//            bw.newLine();
             bw.write("@set CLASSPATH=;");
             bw.newLine();
             bw.write("@set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\\lib\\tools.jar");
@@ -134,7 +135,7 @@ public final class Benchmark {
         }
     }
 
-    private static final Result readResultFile(final File resultFile) throws Exception {
+    private static Result readResultFile(final File resultFile) throws Exception {
         final BufferedReader br = new BufferedReader(new FileReader(resultFile));
         final Result result = new Result();
         try {

@@ -116,13 +116,6 @@
         </dependency>
         <dependency>
             <groupId>ebm</groupId>
-            <artifactId>lib.jodd</artifactId>
-            <version>3.4.5</version>
-            <systemPath>${basedir}/lib/jodd-3.4.5.jar</systemPath>
-            <scope>system</scope>
-        </dependency>
-        <dependency>
-            <groupId>ebm</groupId>
             <artifactId>lib.mvel2</artifactId>
             <version>2.1.5.Final</version>
             <systemPath>${basedir}/lib/mvel2-2.1.5.Final.jar</systemPath>

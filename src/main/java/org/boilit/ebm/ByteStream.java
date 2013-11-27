@@ -2,6 +2,7 @@ package org.boilit.ebm;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Properties;
 
 /**
  * @author Boilit
@@ -32,5 +33,8 @@ public final class ByteStream extends OutputStream implements IOutput {
     @Override
     public final long getStreamSize() {
         return streamSize;
+    }
+
+    public void init(Properties properties) {
     }
 }
