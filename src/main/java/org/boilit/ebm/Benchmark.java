@@ -8,12 +8,14 @@ import java.util.*;
  * @see
  */
 public final class Benchmark {
+
     public static void main(String[] args) throws Exception {
         final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         final String classPath = classLoader.getResource("").getFile();
         final Properties arguments = Utilities.getArguments(args);
         final String report = arguments.getProperty("-report", classPath);
         final String config = arguments.getProperty("-config", "benchmark.properties");
+        final String defaultJavaHome = arguments.getProperty("-jdk", "");
         final Properties properties = Utilities.getProperties(config);
         final String[] engineNames = properties.getProperty("engines", "").split(";");
         final Result[] results = new Result[engineNames.length];
@@ -30,8 +32,8 @@ public final class Benchmark {
             System.out.println("processing Engine[" + engineNames[i].trim() + "]...");
             commandFile = new File(classPath, engineNames[i].trim() + ".bat");
             resultFile = new File(classPath, engineNames[i].trim() + ".txt");
-            Benchmark.generateCmdFile(classPath, commandFile, engineName, config, properties);
-            process = Runtime.getRuntime().exec("cmd /c " + engineName + ".bat", new String[]{}, new File(classPath));
+            Benchmark.generateCmdFile(classPath, commandFile, engineName, config, properties, defaultJavaHome);
+            process = Runtime.getRuntime().exec("cmd /c " + engineName + ".bat >> out.info.log 2>> out.err.log", null, new File(classPath));
             process.waitFor();
             commandFile.delete();
             results[i] = readResultFile(resultFile);
@@ -57,7 +59,7 @@ public final class Benchmark {
 
     private static final void generateCmdFile(
             final String classPath, final File commandFile, final String engineName,
-            final String config, final Properties properties) throws Exception {
+            final String config, final Properties properties, final String defaultJavaHome) throws Exception {
         if (!commandFile.getParentFile().exists()) {
             commandFile.getParentFile().mkdirs();
         }
@@ -66,13 +68,15 @@ public final class Benchmark {
         }
         final BufferedWriter bw = new BufferedWriter(new FileWriter(commandFile));
         try {
-            final String javaHome = properties.getProperty("jdk", "");
+            final String javaHome = properties.getProperty("jdk", defaultJavaHome);
             if (javaHome.trim().length() > 0) {
                 bw.write("@set JAVA_HOME=");
                 bw.write(javaHome);
                 bw.newLine();
             }
             bw.write("@set PATH=.;%JAVA_HOME%\\bin;");
+            bw.newLine();
+            bw.write("@set CLASSPATH=;");
             bw.newLine();
             bw.write("@set CLASSPATH=%CLASSPATH%;%JAVA_HOME%\\lib\\tools.jar");
             bw.newLine();
@@ -85,7 +89,7 @@ public final class Benchmark {
             appendLibraryJarsToClassPath(bw, (lib.trim().length() == 0 ? classPath : lib) + "/lib");
             bw.write("@set CLASSPATH=%CLASSPATH%;" + commandFile.getParentFile().getAbsolutePath() + ";");
             bw.newLine();
-            bw.write("@%JAVA_HOME%\\bin\\java");
+            bw.write("@\"%JAVA_HOME%\\bin\\java\"");
             final String jvm = properties.getProperty("jvm", "");
             if (jvm != null && jvm.trim().length() > 0) {
                 bw.write(" " + jvm.trim());
