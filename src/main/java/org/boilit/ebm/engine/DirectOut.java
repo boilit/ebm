@@ -122,7 +122,7 @@ public class DirectOut extends AbstractEngine {
     }
 
     @Override
-    public void work(Map<String, Object> model, OutputStream outputStream) throws Exception {
-        work(model, new OutputStreamWriter(outputStream, encoding));
+    public boolean isSupportByteStream() {
+        return false;
     }
 }
