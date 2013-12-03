@@ -30,12 +30,17 @@ mvn clean install
 </pre>
 + Linux暂未支持
 
+
+测试结果：
+============
+
+![report.png](report.png)
+
+
 参考资料
 ===
 <pre>
 交流QQ群：109365467
-
-测试结果：<a href="http://boilit.github.io/bsl/zh/ability/jdk7utf8.html">测试结果</a>
 
 引擎参考：
   BSL
@@ -67,6 +72,14 @@ mvn clean install
 作者姓名：于景洋
 所在单位：胜利油田胜利软件有限责任公司
 </pre>
+
+
+Contributors：
+==============
+
+* zqq90: https://github.com/zqq90/ebm
+* subchen： https://github.com/subchen/ebm
+* Septembers: https://github.com/Septembers/ebm
 
 License(许可证)
 ===
