@@ -16,36 +16,19 @@ public class WriterOutputStream extends OutputStream {
 
     private final Writer writer;
     private final CharsetDecoder decoder;
-    private final boolean writeImmediately;
 
-    private final ByteBuffer decoderIn = ByteBuffer.allocate(128);
+    private final ByteBuffer decoderIn;
 
     private final CharBuffer decoderOut;
 
-    public WriterOutputStream(Writer writer, Charset charset, int bufferSize, boolean writeImmediately) {
+    public WriterOutputStream(Writer writer, String charsetName) {
         this.writer = writer;
-        decoder = charset.newDecoder();
+        decoder = Charset.forName(charsetName).newDecoder();
         decoder.onMalformedInput(CodingErrorAction.REPLACE);
         decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
         decoder.replaceWith("?");
-        this.writeImmediately = writeImmediately;
-        decoderOut = CharBuffer.allocate(bufferSize);
-    }
-
-    public WriterOutputStream(Writer writer, Charset charset) {
-        this(writer, charset, DEFAULT_BUFFER_SIZE, false);
-    }
-
-    public WriterOutputStream(Writer writer, String charsetName, int bufferSize, boolean writeImmediately) {
-        this(writer, Charset.forName(charsetName), bufferSize, writeImmediately);
-    }
-
-    public WriterOutputStream(Writer writer, String charsetName) {
-        this(writer, charsetName, DEFAULT_BUFFER_SIZE, false);
-    }
-
-    public WriterOutputStream(Writer writer) {
-        this(writer, Charset.defaultCharset(), DEFAULT_BUFFER_SIZE, false);
+        decoderOut = CharBuffer.allocate(DEFAULT_BUFFER_SIZE);
+        decoderIn = ByteBuffer.allocate(DEFAULT_BUFFER_SIZE);
     }
 
     @Override
@@ -57,9 +40,7 @@ public class WriterOutputStream extends OutputStream {
             len -= c;
             off += c;
         }
-        if (writeImmediately) {
-            flushOutput();
-        }
+        flushOutput();
     }
 
     @Override

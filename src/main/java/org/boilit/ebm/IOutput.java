@@ -1,6 +1,5 @@
 package org.boilit.ebm;
 
-import java.io.IOException;
 import java.util.Properties;
 
 /**

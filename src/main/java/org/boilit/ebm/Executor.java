@@ -14,9 +14,9 @@ import org.boilit.ebm.utils.WriterOutputStream;
  */
 public final class Executor implements Runnable {
 
-    private IEngine engine;
-    private String engineName;
-    private Properties properties;
+    private final IEngine engine;
+    private final String engineName;
+    private final Properties properties;
 
     public Executor(IEngine engine, String engineName, Properties properties) {
         this.engine = engine;
@@ -33,7 +33,7 @@ public final class Executor implements Runnable {
         }
     }
 
-    private final void execute() throws Exception {
+    private void execute() throws Exception {
         final boolean bytesMode = properties.getProperty("outs", "0").equals("0");
         final IOutput output = createOutput(properties, bytesMode);
         final long time;
@@ -66,8 +66,8 @@ public final class Executor implements Runnable {
                 outputStream.close();
             }
         }
-        Utilities.writeResult(engineName, properties, time, output.getStreamSize());
         output.close();
+        Utilities.writeResult(engineName, properties, time, output.getStreamSize());
     }
 
     private IOutput createOutput(Properties properties, boolean bytesMode) throws Exception {
@@ -85,26 +85,30 @@ public final class Executor implements Runnable {
         return output;
     }
 
-    private final long doWork(final IEngine engine, final Map<String, Object> model, final OutputStream outputStream, final int count, final int warm) throws Exception {
+    private long doWork(final IEngine engine, final Map<String, Object> model, final OutputStream outputStream, final int count, final int warm) throws Exception {
         int i;
         for (i = 0; i < warm; i++) {
             engine.work(model, outputStream);
+            outputStream.flush();
         }
         final long t1 = System.currentTimeMillis();
         for (i = 0; i < count; i++) {
             engine.work(model, outputStream);
+            outputStream.flush();
         }
         return System.currentTimeMillis() - t1;
     }
 
-    private final long doWork(final IEngine engine, final Map<String, Object> model, final Writer writer, final int count, final int warm) throws Exception {
+    private long doWork(final IEngine engine, final Map<String, Object> model, final Writer writer, final int count, final int warm) throws Exception {
         int i;
         for (i = 0; i < warm; i++) {
             engine.work(model, writer);
+            writer.flush();
         }
         final long t1 = System.currentTimeMillis();
         for (i = 0; i < count; i++) {
             engine.work(model, writer);
+            writer.flush();
         }
         return System.currentTimeMillis() - t1;
     }
