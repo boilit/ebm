@@ -31,7 +31,7 @@ public final class WebitScript extends AbstractEngine {
         } else if (outMode.equals("1")) {
             parameters.put("webit.script.Engine.textStatmentFactoryClass", "webit.script.core.text.impl.ByteArrayTextStatmentFactory");
         } //else use default
-        engine = webit.script.Engine.createEngine(null, parameters);
+        engine = webit.script.Engine.createEngine("", parameters);
     }
 
     @Override
