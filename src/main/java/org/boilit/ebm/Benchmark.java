@@ -18,30 +18,43 @@ public final class Benchmark {
         final String config = arguments.getProperty("-config", "benchmark.properties");
         final String defaultJavaHome = arguments.getProperty("-jdk", "");
         final Properties properties = Utilities.getProperties(config);
-        final String[] engineNames = properties.getProperty("engines", "").split(";");
-        final Result[] results = new Result[engineNames.length];
+
+        //Check engine(s)
+        final String[] engineNamesCache;
+        int engineCount = 0;
+        {
+            String[] engineNamesRaw = properties.getProperty("engines", "").split(";");
+            int len;
+            engineNamesCache = new String[len = engineNamesRaw.length];
+            String engineName;
+            for (int i = 0; i < len; i++) {
+                engineName = engineNamesRaw[i].trim();
+                if (engineName.length() != 0 && engineName.charAt(0) != '#') {
+                    engineNamesCache[engineCount++] = engineName;
+                }
+            }
+        }
+
+        final Result[] results = new Result[engineCount];
+        String commandFileName;
         File commandFile;
-        File resultFile;
+        //String resultFile;
         Process process;
         String engineName;
         String engineSite;
         final int warm = Integer.parseInt(properties.getProperty("warm"));
         final int loop = Integer.parseInt(properties.getProperty("loop"));
-        for (int i = 0, n = engineNames.length; i < n; i++) {
-            engineName = engineNames[i].trim();
+
+        for (int i = 0; i < engineCount; i++) {
+            engineName = engineNamesCache[i];
             engineSite = properties.getProperty(engineName + ".site", "");
-            System.out.println("processing Engine[" + engineNames[i].trim() + "]...");
-            commandFile = new File(classPath, engineNames[i].trim() + ".bat");
-            resultFile = new File(classPath, engineNames[i].trim() + ".txt");
-            Benchmark.generateCmdFile(classPath, commandFile, engineName, config, properties, defaultJavaHome);
-            process = Runtime.getRuntime().exec("cmd /c " + engineName + ".bat >> out.info.log 2>> out.err.log", null, new File(classPath));
+            System.out.println("processing Engine[" + engineName + "]...");
+            commandFileName = engineName + ".bat";
+            generateCmdFile(classPath, commandFile = new File(classPath, commandFileName), engineName, config, properties, defaultJavaHome);
+            process = Runtime.getRuntime().exec("cmd /c " + commandFileName + " >> out.info.log 2>> out.err.log", null, new File(classPath));
             process.waitFor();
             commandFile.delete();
-            results[i] = readResultFile(resultFile);
-            resultFile.delete();
-            results[i].setSite(engineSite);
-            results[i].setTps(loop * 1000 / results[i].getTime());
-            results[i].setSize(results[i].getSize() / (warm + loop));
+            results[i] = readResultFile(new File(classPath, engineName + ".txt"), engineSite, warm, loop);
         }
         Arrays.sort(results, new Comparator<Result>() {
             @Override
@@ -135,7 +148,7 @@ public final class Benchmark {
         }
     }
 
-    private static Result readResultFile(final File resultFile) throws Exception {
+    private static Result readResultFile(final File resultFile, String engineSite, int warm, int loop) throws Exception {
         final BufferedReader br = new BufferedReader(new FileReader(resultFile));
         final Result result = new Result();
         try {
@@ -157,6 +170,11 @@ public final class Benchmark {
                 br.close();
             }
         }
+
+        resultFile.delete();
+        result.setSite(engineSite);
+        result.setTps(loop * 1000 / result.getTime());
+        result.setSize(result.getSize() / (warm + loop));
         return result;
     }
 }
