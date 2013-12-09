@@ -83,6 +83,7 @@ public final class Benchmark {
         final BufferedWriter bw = new BufferedWriter(new FileWriter(commandFile));
         try {
             final String javaHome = properties.getProperty("jdk", defaultJavaHome);
+            final String jvmArgs = properties.getProperty("jvm_args", "");
             if (javaHome.trim().length() > 0) {
                 bw.write("@set JAVA_HOME=");
                 bw.write(javaHome);
@@ -114,6 +115,8 @@ public final class Benchmark {
             } else if (mode == 2) {
                 bw.write(" -client");
             }
+            bw.write(" ");
+            bw.write(jvmArgs);
             bw.write(" ");
             bw.write(Executor.class.getName());
             bw.write(" -name ");
