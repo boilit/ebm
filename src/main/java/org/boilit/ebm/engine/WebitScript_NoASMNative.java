@@ -8,12 +8,11 @@ import webit.script.CFG;
  * @author zqq
  * @see
  */
-public class WebitScript_NoASM extends WebitScript {
+public final class WebitScript_NoASMNative extends WebitScript {
 
     @Override
     protected void initConfig(Map<String, Object> parameters, Properties properties) {
         super.initConfig(parameters, properties);
         parameters.put(CFG.ASM_NATIVE, "false");
-        parameters.put(CFG.ASM_RESOLVER, "false");
     }
 }

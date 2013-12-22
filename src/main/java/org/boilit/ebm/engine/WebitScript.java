@@ -7,12 +7,13 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import webit.script.CFG;
 
 /**
  * @author zqq
  * @see
  */
-public final class WebitScript extends AbstractEngine {
+public class WebitScript extends AbstractEngine {
 
     private String templateUrl;
     private webit.script.Engine engine;
@@ -21,17 +22,23 @@ public final class WebitScript extends AbstractEngine {
     public final void init(Properties properties) throws Exception {
         templateUrl = "/templates/webit.html";
 
-        Map parameters = new HashMap();
-        parameters.put("webit.script.Engine.encoding", properties.getProperty("outputEncoding", "UTF-8"));
-        parameters.put("webit.script.loaders.impl.ClasspathLoader.encoding", properties.getProperty("inputEncoding", "UTF-8"));
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        initConfig(parameters, properties);
+
+        engine = webit.script.Engine.createEngine("", parameters);
+    }
+
+    protected void initConfig(Map<String, Object> parameters, Properties properties) {
+
+        parameters.put(CFG.OUT_ENCODING, properties.getProperty("outputEncoding", "UTF-8"));
+        parameters.put(CFG.CLASSPATH_LOADER_ENCODING, properties.getProperty("inputEncoding", "UTF-8"));
 
         String outMode = properties.getProperty("outs", "0");
         if (outMode.equals("0")) {
-            parameters.put("webit.script.Engine.textStatmentFactoryClass", "webit.script.core.text.impl.CharArrayTextStatmentFactory");
+            parameters.put(CFG.TEXT_FACTORY, CFG.BYTE_ARRAY_TEXT_FACTORY);
         } else if (outMode.equals("1")) {
-            parameters.put("webit.script.Engine.textStatmentFactoryClass", "webit.script.core.text.impl.ByteArrayTextStatmentFactory");
+            parameters.put(CFG.TEXT_FACTORY, CFG.CHAR_ARRAY_TEXT_FACTORY);
         } //else use default
-        engine = webit.script.Engine.createEngine("", parameters);
     }
 
     @Override
