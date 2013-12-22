@@ -30,7 +30,7 @@ mvn clean install
 
 ~~~~~
 JVM: windows oracle-JDK7u45 (32位)
-JVM参数: -server -Xms256m -XX:PermSize=32m
+JVM参数: -server -Xms128m -XX:PermSize=32m
 预热: 1000
 渲染次数: 200000
 数据深度: 50
