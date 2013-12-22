@@ -29,15 +29,21 @@ mvn clean install
 ============
 
 ~~~~~
-JVM: oracle JDK7u45 (32位)
-JVM参数: -server -Xms256m -XX:PermSize=64m
-warm: 100
-loop: 100000
-items: 20
+JVM: windows oracle-JDK7u45 (32位)
+JVM参数: -server -Xms256m -XX:PermSize=32m
+预热: 1000
+渲染次数: 200000
+数据深度: 50
 输出编码: UTF-8
 ~~~~~
 
-![report.png](report.png)
+![report.png](report_jdk7.png)
+
+~~~~~
+JVM: windows oracle-JDK6u37 (32位)
+~~~~~
+
+![report.png](report_jdk6.png)
 
 
 参考资料
