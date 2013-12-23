@@ -4,12 +4,6 @@ Engine Benchmark
 目前网络上的Java模板引擎测试基本上都是非独立JVM测试的，
 这样做后测试的引擎性能会较高，与实际性能相比有较大偏差，
 因此本测试对每个引擎都使用独立JVM测试，保证了各个引擎间环境的公平性；
-
-以下是2.0.0的测试方法：
-
-1、修改properties文件，属性参考properties文件内的注释；
-2、执行Benchmark的main方法，将在类路径下产生report.html结果；
-
 </pre>
 
 使用
@@ -34,7 +28,22 @@ mvn clean install
 测试结果：
 ============
 
-![report.png](report.png)
+~~~~~
+JVM: windows oracle-JDK7u45 (32位)
+JVM参数: -server -Xms128m -XX:PermSize=32m
+预热: 1000
+渲染次数: 200000
+数据深度: 50
+输出编码: UTF-8
+~~~~~
+
+![report.png](report_jdk7.png)
+
+~~~~~
+JVM: windows oracle-JDK6u37 (32位)
+~~~~~
+
+![report.png](report_jdk6.png)
 
 
 参考资料

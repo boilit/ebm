@@ -1,44 +1,53 @@
 package org.boilit.ebm.engine;
 
 import org.boilit.ebm.AbstractEngine;
-import org.boilit.ebm.IEngine;
 
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import webit.script.CFG;
 
 /**
- * @author Boilit
+ * @author zqq
  * @see
  */
-public final class WebitScript extends AbstractEngine {
+public class WebitScript extends AbstractEngine {
+
     private String templateUrl;
-    private webit.script.Engine engine_bytes;
-    private webit.script.Engine engine_chars;
+    private webit.script.Engine engine;
 
     @Override
     public final void init(Properties properties) throws Exception {
         templateUrl = "/templates/webit.html";
 
-        Map parameters = new HashMap();
-        parameters.put("webit.script.Engine.encoding", properties.getProperty("outputEncoding", "UTF-8"));
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        initConfig(parameters, properties);
 
-        parameters.put("webit.script.Engine.textStatmentFactoryClass", "webit.script.core.text.impl.CharArrayTextStatmentFactory");
-        engine_chars = webit.script.Engine.createEngine(null, parameters);
+        engine = webit.script.Engine.createEngine("", parameters);
+    }
 
-        parameters.put("webit.script.Engine.textStatmentFactoryClass", "webit.script.core.text.impl.ByteArrayTextStatmentFactory");
-        engine_bytes = webit.script.Engine.createEngine(null, parameters);
+    protected void initConfig(Map<String, Object> parameters, Properties properties) {
+
+        parameters.put(CFG.OUT_ENCODING, properties.getProperty("outputEncoding", "UTF-8"));
+        parameters.put(CFG.CLASSPATH_LOADER_ENCODING, properties.getProperty("inputEncoding", "UTF-8"));
+
+        String outMode = properties.getProperty("outs", "0");
+        if (outMode.equals("0")) {
+            parameters.put(CFG.TEXT_FACTORY, CFG.BYTE_ARRAY_TEXT_FACTORY);
+        } else if (outMode.equals("1")) {
+            parameters.put(CFG.TEXT_FACTORY, CFG.CHAR_ARRAY_TEXT_FACTORY);
+        } //else use default
     }
 
     @Override
     public void work(Map model, Writer writer) throws Exception {
-        engine_chars.getTemplate(this.templateUrl).merge(model, writer);
+        engine.getTemplate(this.templateUrl).merge(model, writer);
     }
 
     @Override
     public void work(Map model, OutputStream outputStream) throws Exception {
-        engine_bytes.getTemplate(this.templateUrl).merge(model, outputStream);
+        engine.getTemplate(this.templateUrl).merge(model, outputStream);
     }
 }

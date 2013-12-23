@@ -1,30 +1,33 @@
 package org.boilit.ebm.engine;
 
+import httl.Engine;
+import org.boilit.ebm.AbstractEngine;
+
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.Map;
 import java.util.Properties;
-import jetbrick.template.JetConfig;
-import jetbrick.template.JetEngine;
-import org.boilit.ebm.AbstractEngine;
 
 /**
  * @author Boilit
  * @see
  */
-public final class JetbrickTemplate extends AbstractEngine {
+public final class HTTL_Interpreted extends AbstractEngine {
     private String templateUrl;
-    private JetEngine engine;
+    private Engine engine;
 
     @Override
     public final void init(Properties properties) throws Exception {
-        templateUrl = "/templates/jetx.html";
+        templateUrl = "/templates/httl.html";
 
         Properties prop = new Properties();
-        prop.setProperty(JetConfig.COMPILE_DEBUG, "false");
-        prop.setProperty(JetConfig.INPUT_ENCODING, properties.getProperty("inputEncoding", "UTF-8"));
-        prop.setProperty(JetConfig.OUTPUT_ENCODING, properties.getProperty("outputEncoding", "UTF-8"));
-        engine = JetEngine.create(prop);
+        prop.setProperty("import.packages", "java.util");
+        prop.setProperty("filter", "null");
+        prop.setProperty("logger", "null");
+        prop.setProperty("interpreted", "true");
+        prop.setProperty("input.encoding", properties.getProperty("inputEncoding", "UTF-8"));
+        prop.setProperty("output.encoding", properties.getProperty("outputEncoding", "UTF-8"));
+        engine = Engine.getEngine(prop);
     }
 
     @Override

@@ -3,10 +3,8 @@ package org.boilit.ebm.engine;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import org.boilit.ebm.AbstractEngine;
-import org.boilit.ebm.IEngine;
 
 import java.io.File;
-import java.io.OutputStream;
 import java.io.Writer;
 import java.util.Map;
 import java.util.Properties;
@@ -22,7 +20,6 @@ public final class FreeMarker extends AbstractEngine {
     @Override
     public final void init(Properties properties) throws Exception {
         templateUrl = "/ftl.html";
-
         engine = new Configuration();
         engine.setDefaultEncoding(properties.getProperty("outputEncoding", "UTF-8"));
         engine.setDirectoryForTemplateLoading(new File(FreeMarker.class.getResource("/templates").getPath()));
