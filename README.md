@@ -1,6 +1,11 @@
 Engine Benchmark
 ===
+
 <pre>
+<b>注：</b>
+EBM的强化版本TEB已发布于oschina的git仓库(<a href="http://git.oschina.net/kiang/teb">TEB的地址</a>)
+2014年以前的EBM测试结果在TEB中已经有所发展或是发生改变，请注意时效性，新的测试请转向TEB进行；
+
 目前网络上的Java模板引擎测试基本上都是非独立JVM测试的，
 这样做后测试的引擎性能会较高，与实际性能相比有较大偏差，
 因此本测试对每个引擎都使用独立JVM测试，保证了各个引擎间环境的公平性；
